@@ -9,6 +9,8 @@ public class peeArc : MonoBehaviour {
 	public float pissSpeed = 2.0f;
 	public float killTime = 5.0f;
 
+	bool stopBezier = false;
+
 	ParticleSystem splash;
 
 	float BezierTime = 0.0f;
@@ -36,7 +38,9 @@ public class peeArc : MonoBehaviour {
 	void Update () {
 
 		//if (peeControl.isPissing) {
+		if(!stopBezier){
 			bezierCalc();
+		}
 		//}
 	}
 	void peeDistanceCalc(){
@@ -69,6 +73,7 @@ public class peeArc : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col){
 		if (col.transform.tag != "Player" || col.transform.tag != "Projectiles"){
+	//	stopBezier = true;
 			Vector3 dirHit = new Vector3 ();
 			dirHit = col.transform.position - this.transform.position;
 		
@@ -77,7 +82,7 @@ public class peeArc : MonoBehaviour {
 		//	Vector3 dirHitRot = new Vector3 (dirHit.x * 360.0f, dirHit.y * 360.0f, dirHit.z * 360.0f);
 			Debug.Log (hitRot);
 			splash = Instantiate (Resources.Load ("psPeeSplash"), transform.position, hitRot) as ParticleSystem;
-			Destroy (gameObject,1.0f);
+			Destroy (gameObject);
 		}
 	}
 }
