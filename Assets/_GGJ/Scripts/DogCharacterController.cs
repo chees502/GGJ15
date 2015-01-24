@@ -15,14 +15,16 @@ public class DogCharacterController : MonoBehaviour {
 
     public float rotationRate = 10f;
 
-    void Awake() {
+    public Vector3 moveVector;
 
+    void Awake() {
+        _Dog.Dog = gameObject;
     }
 
     void Update()
     {
         // Get forward/right input
-        Vector3 moveVector = new Vector3(
+        moveVector = new Vector3(
             Input.GetAxis("Horizontal") * horizontalAccel,
             0f,           
             Input.GetAxis("Vertical") * verticalAccel);
@@ -47,7 +49,7 @@ public class DogCharacterController : MonoBehaviour {
         // Handle Jumping
         if (Input.GetButtonDown("Jump"))
         {
-
+            gameObject.GetComponent<JumpUp>().Jump();
         }
     }
 
