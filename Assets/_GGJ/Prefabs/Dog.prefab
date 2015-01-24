@@ -187,14 +187,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2e50d60356a684b8a41a0ab54b11d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraLookRate: 1
-  cameraTrans: {fileID: 0}
+  jumpController: {fileID: 0}
+  jumpForce: 30
+  jumpForceMode: 1
+  jumpInputModifier: .100000001
+  cameraLookRate: 1
   verticalAccel: 1
   horizontalAccel: 1
   maxForwardRightVel: 1000
-  rotationRate: 10
-  moveVector: {x: 0, y: 0, z: 0}
-  targetLocation: {x: 0, y: 0, z: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

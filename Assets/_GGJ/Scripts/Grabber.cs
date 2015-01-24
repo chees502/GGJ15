@@ -13,6 +13,19 @@ public class Grabber : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Debug.DrawRay (transform.position, transform.forward * 2,Color.green);
+        RaycastHit hit = new RaycastHit();
+        if (holding==false&&
+            Physics.Raycast(new Ray(transform.position, transform.forward), out hit, 2) &&
+            hit.transform.gameObject.GetComponent<Rigidbody>())
+        {
+            _Dog.maw.mouthOpen = true;
+        }
+        else
+        {
+            _Dog.maw.mouthOpen = false;
+
+        }
+
         if(Input.GetKeyDown("e")){
             if (holding)
             {
