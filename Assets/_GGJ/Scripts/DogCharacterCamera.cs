@@ -10,6 +10,6 @@ public class DogCharacterCamera : MonoBehaviour {
     }
 	void Update () {
         transform.position = _Dog.Dog.transform.position;
-        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * cameraLookRate * Time.deltaTime);
+        
 	}
 }

@@ -4,16 +4,8 @@ using System.Collections;
 public class JumpUp : MonoBehaviour {
     public Transform EyeSensor;
     public Transform HaloSensor;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
-    bool CanJump(out RaycastHit spot)
+    public bool CanJump(out RaycastHit spot)
     {
 
         //cast from face
@@ -58,13 +50,16 @@ public class JumpUp : MonoBehaviour {
         spot = new RaycastHit();
         return false;
     }
+
+    /* Moved into the DogCharacterController
     public void Jump()
     {
         RaycastHit spot = new RaycastHit();
         if (CanJump(out spot))
         {
-            _Dog.Controller.targetLocation = spot.point+new Vector3(0,1,0);
+            _Dog.Controller.targetLocation = spot.point + new Vector3(0, 1, 0);
             _Dog.DogState = _Dog._DogState.Climbing;
         }
     }
+     */
 }

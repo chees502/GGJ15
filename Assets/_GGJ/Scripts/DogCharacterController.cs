@@ -3,21 +3,44 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(JumpUp))]
 public class DogCharacterController : MonoBehaviour {
-    public float CameraLookRate = 1f;
+    static private DogCharacterController _instance;
+    static public DogCharacterController Instance {
+        get { return _instance; }
+    }
 
-    public Transform cameraTrans;
+    public JumpUp jumpController = null;
+    public float jumpForce = 30f;
+    public ForceMode jumpForceMode = ForceMode.Impulse;
+    public float jumpInputModifier = 0.1f;
 
-    public float verticalAccel;
-    public float horizontalAccel;
+    public float cameraLookRate = 1f;
 
-    public float maxForwardRightVel = 1000;
+    public float verticalAccel = 1;
+    public float horizontalAccel = 1;
 
-    public float rotationRate = 10f;
+    public float maxForwardRightVel = 4;
 
-    public Vector3 moveVector;
-    public Vector3 targetLocation;
+    private Vector3 targetLocation;
+
+    private Vector3 moveVector;
+
+    private float distToGround = 1f;
+    private float groundedMinSlope = 0.7f;
+
+    private bool isGrounded = false;
+
     void Awake() {
+        if (DogCharacterController._instance == null) {
+            DogCharacterController._instance = this;
+        } else {
+            Debug.LogWarning("[DogCharacterController]: More then one instance of the script in the scene");
+        }
+
+        jumpController = GetComponent<JumpUp>();
+
+
         _Dog.Dog = gameObject;
         _Dog.BuildDogConnection();
     }
@@ -34,40 +57,76 @@ public class DogCharacterController : MonoBehaviour {
                 break;
         }
     }
+
+    void LateUpdate()
+    {
+        isGrounded = false;
+    }
+
     void Idle()
     {
-
-        // Get forward/right input
+        // Get the input and apply acceleration rates
         moveVector = new Vector3(
             Input.GetAxis("Horizontal") * horizontalAccel,
             0f,
             Input.GetAxis("Vertical") * verticalAccel);
 
-        // Add forward/right input to velocity
-        rigidbody.velocity += transform.TransformDirection(moveVector);
+        // Apply the jumpInputModifier to the move Vector is not grouned
+        moveVector *= isGrounded ? 1f : jumpInputModifier;
 
-        // Limit the forward/right velocity
+        // Change move vector into object space
+        moveVector = transform.TransformDirection(moveVector);
+
+        // Add move vector to rigidbodies velocity as long as the velocity
+        // is below the max velocity to apply input
         Vector2 frLimitied = new Vector2(rigidbody.velocity.x, rigidbody.velocity.z);
-        if (frLimitied.magnitude > maxForwardRightVel)
-        {
-            frLimitied = frLimitied.normalized * maxForwardRightVel;
+        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < maxForwardRightVel) {
+            rigidbody.velocity += moveVector;
         }
-        rigidbody.velocity = new Vector3(frLimitied.x, rigidbody.velocity.y, frLimitied.y);
 
-        // Rotates towards the camera's facing direction
-        // Only when the character is moving
-        if (moveVector.magnitude > 0)
-        {
-            Quaternion targetRot = Quaternion.LookRotation((new Vector3(_Dog.Camera.transform.forward.x, 0, _Dog.Camera.transform.forward.z)).normalized);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationRate * Time.deltaTime);
-        }
+        // Rotate the based off the mouse x input
+        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * cameraLookRate * Time.deltaTime);
 
         // Handle Jumping
-        if (Input.GetButtonDown("Jump"))
-        {
-            gameObject.GetComponent<JumpUp>().Jump();
+        if (Input.GetButtonDown("Jump")) {
+            Jump();
         }
     }
+
+    bool IsGrounded()
+    {
+        RaycastHit hitInfo;
+        Ray ray = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out hitInfo, distToGround + 0.1f))
+        {
+            if (Vector3.Dot(hitInfo.normal, Vector3.up) > groundedMinSlope)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    void Jump()
+    {
+        RaycastHit spot = new RaycastHit();
+        if (jumpController.CanJump(out spot))
+        {
+            targetLocation = spot.point + new Vector3(0, 1, 0);
+            _Dog.DogState = _Dog._DogState.Climbing;
+        }
+        else if (isGrounded)
+        {
+            Vector3 jumpForceDir = Vector3.up;
+            jumpForceDir += moveVector.normalized;
+            jumpForceDir *= jumpForce;
+            rigidbody.AddForce(jumpForceDir, jumpForceMode);
+
+            Debug.DrawRay(transform.position, jumpForceDir, Color.red);
+        }
+    }
+
     void Climb()
     {
         transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime*5);
@@ -80,5 +139,15 @@ public class DogCharacterController : MonoBehaviour {
         Debug.Log("Trigger entered");
     }
 
-
+    void OnCollisionStay(Collision collision)
+    {
+        foreach (var contact in collision.contacts)
+        {
+            // Check if the dot of the contact point is above the min slope
+            if (Vector3.Dot(contact.normal, Vector3.up) > groundedMinSlope)
+            {
+                isGrounded = true;
+            }
+        }
+    }
 }
