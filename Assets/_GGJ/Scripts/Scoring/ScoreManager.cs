@@ -4,7 +4,24 @@ using System.Collections;
 public class ScoreManager : MonoBehaviour {
     static private ScoreManager _instance;
     static public ScoreManager Instance {
-        get { return _instance; }
+        get {
+            // If no ScoreManager instance try to find
+            // the Score Manager from the scene
+            if (_instance == null) {
+                var smgo = GameObject.Find("ScoreManager");
+                if(smgo != null) {
+                    _instance = smgo.GetComponent<ScoreManager>();
+                }
+            }
+
+            // If no ScoreManager instance create a new ScoreManager
+            if (_instance == null) {
+                var smgo = new GameObject("ScoreManager");
+                var sm = smgo.AddComponent<ScoreManager>();
+            }
+
+            return _instance; 
+        }
     }
 
     public delegate void IntValueChangeEvent(int newValue, int oldValue);
