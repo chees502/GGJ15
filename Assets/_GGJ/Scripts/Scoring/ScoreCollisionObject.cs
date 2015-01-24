@@ -10,7 +10,6 @@ public class ScoreCollisionObject : MonoBehaviour {
             GiveScore();
         } else {
             ScoreDogHitObject otherHit = other.gameObject.GetComponent<ScoreDogHitObject>();
-            Debug.Log("OtherHit == " + otherHit.ToString());
             if (otherHit != null) {
                 Debug.Log(this.gameObject.name + " Collided with " + other.gameObject.name);
                 GiveScore();

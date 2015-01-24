@@ -7,8 +7,10 @@ public class ScoreDogHitApplier : MonoBehaviour {
         if (otherHit != null) {
             otherHit.Refresh();
         } else {
-            other.gameObject.AddComponent<ScoreDogHitObject>();
-            //Debug.Log("[ScoreDogHitApplier]: Appling ScoreDogHitObject");
+            if (other.gameObject.rigidbody != null) {
+                other.gameObject.AddComponent<ScoreDogHitObject>();
+                //Debug.Log("[ScoreDogHitApplier]: Appling ScoreDogHitObject");
+            }
         }
     }
 }

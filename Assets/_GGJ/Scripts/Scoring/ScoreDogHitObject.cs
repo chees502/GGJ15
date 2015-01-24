@@ -24,8 +24,10 @@ public class ScoreDogHitObject : MonoBehaviour {
         if (other.gameObject.tag != "Player") {
             var otherHit = other.gameObject.GetComponent<ScoreDogHitObject>();
             if (otherHit == null) {
-                other.gameObject.AddComponent<ScoreDogHitObject>();
-                //Debug.Log("[ScoreDogHitObject]: Appling ScoreDogHitObject");
+                if (other.gameObject.rigidbody != null) {
+                    other.gameObject.AddComponent<ScoreDogHitObject>();
+                    //Debug.Log("[ScoreDogHitObject]: Appling ScoreDogHitObject");
+                }
             }
         }
     }
