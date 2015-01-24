@@ -557,6 +557,7 @@ MonoBehaviour:
   maxForwardRightVel: 1000
   rotationRate: 10
   moveVector: {x: 0, y: 0, z: 0}
+  targetLocation: {x: 0, y: 0, z: 0}
 --- !u!54 &580820707
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -870,7 +871,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraLookRate: 100
-  followTarget: {fileID: 580820701}
 --- !u!1 &806573712
 GameObject:
   m_ObjectHideFlags: 0

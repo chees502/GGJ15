@@ -63,7 +63,8 @@ public class JumpUp : MonoBehaviour {
         RaycastHit spot = new RaycastHit();
         if (CanJump(out spot))
         {
-            _Dog.Dog.transform.position = spot.point+new Vector3(0,1,0);
+            _Dog.Controller.targetLocation = spot.point+new Vector3(0,1,0);
+            _Dog.DogState = _Dog._DogState.Climbing;
         }
     }
 }
