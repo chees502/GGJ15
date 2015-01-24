@@ -42,9 +42,15 @@ public class ScoreManager : MonoBehaviour {
         _multiplier = 1;
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.C)) {
+            ClearStreak();
+        }
+    }
+
     public void AddScore(int value) {
         if (value > 0) {
-            SetScore(_score + value);
+            SetScore(_score + (value * Multiplier));
             SetStreak(_streak + 1);
             SetMultiplier((int)Mathf.Floor(_streak / ItemsPerMultiplier) + 1);
         }
