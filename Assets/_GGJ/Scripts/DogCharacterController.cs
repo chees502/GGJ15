@@ -10,26 +10,41 @@ public class DogCharacterController : MonoBehaviour {
         get { return _instance; }
     }
 
+    public float verticalAccel = 1;
+    public float horizontalAccel = 1;
+
+    public float idleMaxForwardRightVel = 4f;
+    public float idleInputModifier = 1f;
+
     public JumpUp jumpController = null;
     public float jumpForce = 30f;
     public ForceMode jumpForceMode = ForceMode.Impulse;
     public float jumpInputModifier = 0.1f;
 
+    public float urinInputModifier = 0.3f;
+    public float urinRotationModifier = 0.5f;
+    public float urinMaxForwardRightVel = 2f;
+
     public float cameraLookRate = 1f;
 
-    public float verticalAccel = 1;
-    public float horizontalAccel = 1;
-
-    public float maxForwardRightVel = 4;
-
     private Vector3 targetLocation;
-
     private Vector3 moveVector;
 
     private float distToGround = 1f;
     private float groundedMinSlope = 0.7f;
 
-    private bool isGrounded = false;
+    private bool _isGrounded = false;
+
+    public string InputAxisHorizontal = "Horizontal";
+    public string InputAxisVertical = "Vertical";
+    public string InputAxisRotateY = "Mouse X";
+    public string InputButtonJump = "Jump";
+    public string InputButtonFire = "Fire1";
+
+    public bool IsGrouned
+    {
+        get { return _isGrounded; }
+    }
 
     void Awake() {
         if (DogCharacterController._instance == null) {
@@ -43,10 +58,19 @@ public class DogCharacterController : MonoBehaviour {
 
         _Dog.Dog = gameObject;
         _Dog.BuildDogConnection();
+
+        _Dog.OnDogStateChange += OnDogStateChanged;
+    }
+
+    void OnDestroy()
+    {
+        _Dog.OnDogStateChange -= OnDogStateChanged;
     }
 
     void Update()
     {
+        HandleInputs();
+
         switch (_Dog.DogState)
         {
             case _Dog._DogState.Idle:
@@ -61,21 +85,55 @@ public class DogCharacterController : MonoBehaviour {
         }
     }
 
+    void OnDogStateChanged(_Dog._DogState newState)
+    {
+        switch (newState)
+        {
+            case _Dog._DogState.Idle:
+                OnIdleStart();
+                break;
+            case _Dog._DogState.Climbing:
+                OnClimbStart();
+                break;
+            case _Dog._DogState.Urinating:
+                OnUrinateStart();
+                break;
+        }
+    }
+
     void LateUpdate()
     {
-        isGrounded = false;
+        _isGrounded = false;
+    }
+
+    void HandleInputs()
+    {
+        moveVector = new Vector3(Input.GetAxis(InputAxisHorizontal), 0f, Input.GetAxis(InputAxisVertical));
+
+        if (Input.GetButton(InputButtonFire))
+        {
+            _Dog.DogState = _Dog._DogState.Urinating;
+        }
+        else if (Input.GetButtonUp(InputButtonFire))
+        {
+            _Dog.DogState = _Dog._DogState.Idle;
+        }
+        
+    }
+
+    void OnIdleStart()
+    {
+        Debug.Log("Start Dog Idle State");
     }
 
     void Idle()
     {
-        // Get the input and apply acceleration rates
-        moveVector = new Vector3(
-            Input.GetAxis("Horizontal") * horizontalAccel,
-            0f,
-            Input.GetAxis("Vertical") * verticalAccel);
+        // apply acceleration rates
+        moveVector.x *= horizontalAccel;
+        moveVector.y *= verticalAccel;
 
         // Apply the jumpInputModifier to the move Vector is not grouned
-        moveVector *= isGrounded ? 1f : jumpInputModifier;
+        moveVector *= _isGrounded ? idleInputModifier : jumpInputModifier;
 
         // Change move vector into object space
         moveVector = transform.TransformDirection(moveVector);
@@ -83,22 +141,78 @@ public class DogCharacterController : MonoBehaviour {
         // Add move vector to rigidbodies velocity as long as the velocity
         // is below the max velocity to apply input
         Vector2 frLimitied = new Vector2(rigidbody.velocity.x, rigidbody.velocity.z);
-        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < maxForwardRightVel) {
+        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < idleMaxForwardRightVel) {
             rigidbody.velocity += moveVector;
         }
 
         // Rotate the based off the mouse x input
-        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * cameraLookRate * Time.deltaTime);
+        transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) * cameraLookRate * Time.deltaTime);
 
         // Handle Jumping
-        if (Input.GetButtonDown("Jump")) {
+        if (Input.GetButtonDown(InputButtonJump)) {
             Jump();
         }
     }
 
+    void OnUrinateStart()
+    {
+        Debug.Log("Start Dog Urinate State");
+    }
+
     void Urinate()
     {
+        // apply acceleration rates
+        moveVector.x *= horizontalAccel;
+        moveVector.y *= verticalAccel;
 
+        // Apply the jumpInputModifier to the move Vector is not grouned
+        moveVector *= _isGrounded ? urinInputModifier : jumpInputModifier;
+
+        // Change move vector into object space
+        moveVector = transform.TransformDirection(moveVector);
+
+        // Add move vector to rigidbodies velocity as long as the velocity
+        // is below the max velocity to apply input
+        Vector2 frLimitied = new Vector2(rigidbody.velocity.x, rigidbody.velocity.z);
+        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < idleMaxForwardRightVel)
+        {
+            rigidbody.velocity += moveVector;
+        }
+
+        // Rotate the based off the mouse x input
+        transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) *urinRotationModifier * cameraLookRate * Time.deltaTime);
+    }
+
+    void OnClimbStart()
+    {
+        Debug.Log("Start Dog Climb State");
+    }  
+
+    void Climb()
+    {
+        transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime*5);
+        if(Vector3.Distance(transform.position,targetLocation)<0.1f){
+            _Dog.DogState=_Dog._DogState.Idle;
+        }
+    }
+
+    void Jump()
+    {
+        RaycastHit spot = new RaycastHit();
+        if (jumpController.CanJump(out spot))
+        {
+            targetLocation = spot.point + new Vector3(0, 1, 0);
+            _Dog.DogState = _Dog._DogState.Climbing;
+        }
+        else if (_isGrounded)
+        {
+            Vector3 jumpForceDir = Vector3.up;
+            jumpForceDir += moveVector.normalized;
+            jumpForceDir *= jumpForce;
+            rigidbody.AddForce(jumpForceDir, jumpForceMode);
+
+            Debug.DrawRay(transform.position, jumpForceDir, Color.red);
+        }
     }
 
     bool IsGrounded()
@@ -114,37 +228,7 @@ public class DogCharacterController : MonoBehaviour {
         }
         return false;
     }
-
-
-    void Jump()
-    {
-        RaycastHit spot = new RaycastHit();
-        if (jumpController.CanJump(out spot))
-        {
-            targetLocation = spot.point + new Vector3(0, 1, 0);
-            _Dog.DogState = _Dog._DogState.Climbing;
-        }
-        else if (isGrounded)
-        {
-            Vector3 jumpForceDir = Vector3.up;
-            jumpForceDir += moveVector.normalized;
-            jumpForceDir *= jumpForce;
-            rigidbody.AddForce(jumpForceDir, jumpForceMode);
-
-            Debug.DrawRay(transform.position, jumpForceDir, Color.red);
-        }
-    }   
-
-    void Climb()
-    {
-        transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime*5);
-        if(Vector3.Distance(transform.position,targetLocation)<0.1f){
-            _Dog.DogState=_Dog._DogState.Idle;
-        }
-    }
-
     
-
     void OnTriggerEnter(Collider other) {
         Debug.Log("Trigger entered");
     }
@@ -156,7 +240,7 @@ public class DogCharacterController : MonoBehaviour {
             // Check if the dot of the contact point is above the min slope
             if (Vector3.Dot(contact.normal, Vector3.up) > groundedMinSlope)
             {
-                isGrounded = true;
+                _isGrounded = true;
             }
         }
     }
