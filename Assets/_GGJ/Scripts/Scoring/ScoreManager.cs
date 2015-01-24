@@ -12,11 +12,14 @@ public class ScoreManager : MonoBehaviour {
     public event IntValueChangeEvent OnStreakChange;
     public event IntValueChangeEvent OnMultiplierChange;
 
-    public int _score;
-    public int _streak;
-    public int _multiplier;
+    private int _score;
+    private int _streak;
+    private int _multiplier;
+    private float _streakDuration;
 
-    public int ItemsPerMultiplier = 5;
+
+    public float maxStreakDuration = 4f;
+    public int itemsPerMultiplier = 5;
 
     public int Score {
         get { return _score; }
@@ -28,6 +31,10 @@ public class ScoreManager : MonoBehaviour {
 
     public int Multiplier {
         get { return _multiplier; }
+    }
+
+    public float StreakDuration {
+        get { return _streakDuration; }
     }
 
     void Awake() {
@@ -43,8 +50,11 @@ public class ScoreManager : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.C)) {
-            ClearStreak();
+        if (Streak > 0) {
+            _streakDuration -= Time.deltaTime;
+            if (_streakDuration <= 0f) {
+                ClearStreak();
+            }
         }
     }
 
@@ -52,7 +62,8 @@ public class ScoreManager : MonoBehaviour {
         if (value > 0) {
             SetScore(_score + (value * Multiplier));
             SetStreak(_streak + 1);
-            SetMultiplier((int)Mathf.Floor(_streak / ItemsPerMultiplier) + 1);
+            SetMultiplier((int)Mathf.Floor(_streak / itemsPerMultiplier) + 1);
+            _streakDuration = maxStreakDuration;
         }
     }
 
