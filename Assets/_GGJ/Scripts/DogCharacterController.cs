@@ -55,6 +55,9 @@ public class DogCharacterController : MonoBehaviour {
             case _Dog._DogState.Climbing:
                 Climb();
                 break;
+            case _Dog._DogState.Urinating:
+                Urinate();
+                break;
         }
     }
 
@@ -93,6 +96,11 @@ public class DogCharacterController : MonoBehaviour {
         }
     }
 
+    void Urinate()
+    {
+
+    }
+
     bool IsGrounded()
     {
         RaycastHit hitInfo;
@@ -125,7 +133,7 @@ public class DogCharacterController : MonoBehaviour {
 
             Debug.DrawRay(transform.position, jumpForceDir, Color.red);
         }
-    }
+    }   
 
     void Climb()
     {
@@ -134,7 +142,9 @@ public class DogCharacterController : MonoBehaviour {
             _Dog.DogState=_Dog._DogState.Idle;
         }
     }
+
     
+
     void OnTriggerEnter(Collider other) {
         Debug.Log("Trigger entered");
     }
