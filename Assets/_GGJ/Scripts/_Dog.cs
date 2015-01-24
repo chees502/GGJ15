@@ -5,6 +5,7 @@ public class _Dog : MonoBehaviour {
     public static GameObject Dog;
     public static DogCharacterCamera Camera;
     public static DogCharacterController Controller;
+    public static Maw maw;
     public enum _DogState { Idle, Climbing, Urinating };
     public static _DogState DogState = _DogState.Idle;
 	// Use this for initialization
