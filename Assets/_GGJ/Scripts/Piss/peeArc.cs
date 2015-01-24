@@ -5,7 +5,7 @@ public class peeArc : MonoBehaviour {
 
 	public bool bPiss;
 	public float pissDistance = 0.0f;
-	public float pissDistanceMax = 30.0f;
+	public float pissDistanceMax = 10.0f;
 	public float pissSpeed = 2.0f;
 	public float killTime = 5.0f;
 
@@ -18,10 +18,10 @@ public class peeArc : MonoBehaviour {
 //	float CurveX;
 //	float CurveY;
 
-	public Vector3 startPos = Vector3.zero;
-	public Vector3 controlPos = Vector3.zero;
-	public Vector3 endPos = Vector3.zero;
-	public Vector3 curveVec = Vector3.zero;
+	public Vector3 startPos = new Vector3 ();// Vector3.zero;
+	public Vector3 controlPos = new Vector3 ();// Vector3.zero;
+	public Vector3 endPos = new Vector3 ();//  Vector3.zero;
+	public Vector3 curveVec = new Vector3 ();//  Vector3.zero;
 
 	float dist;
 	// Use this for initialization
@@ -51,7 +51,7 @@ public class peeArc : MonoBehaviour {
 		startPos = transform.root.position;
 		endPos = transform.root.position + transform.root.forward * pissDistance;
 		dist = Vector3.Distance (startPos, endPos);
-		controlPos = transform.root.position + transform.root.forward * pissDistance * 0.5f + transform.root.up * pissDistance * 0.5f;
+		controlPos = transform.root.position + (transform.root.forward * (pissDistance * 0.5f)) + (transform.root.up * (pissDistance * 0.25f));
 	}
 	void bezierCalc(){
 		BezierTime = BezierTime + (Time.deltaTime * pissSpeed);
@@ -62,7 +62,7 @@ public class peeArc : MonoBehaviour {
 		curveVec.x = (((1-BezierTime)*(1-BezierTime)) * startPos.x) + (2 * BezierTime * (1 - BezierTime) * controlPos.x) + ((BezierTime * BezierTime) * endPos.x);
 		curveVec.y = (((1-BezierTime)*(1-BezierTime)) * startPos.y) + (2 * BezierTime * (1 - BezierTime) * controlPos.y) + ((BezierTime * BezierTime) * endPos.y);
 		curveVec.z = (((1-BezierTime)*(1-BezierTime)) * startPos.z) + (2 * BezierTime * (1 - BezierTime) * controlPos.z) + ((BezierTime * BezierTime) * endPos.z);
-		transform.position = curveVec;
+		transform.position += curveVec.normalized;
 	
 	}
 

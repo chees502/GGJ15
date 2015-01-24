@@ -14,7 +14,7 @@ GameObject:
   - 54: {fileID: 5400000}
   m_Layer: 0
   m_Name: projectile_pee
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bPiss: 0
   pissDistance: 0
-  pissDistanceMax: 30
-  pissSpeed: 2
+  pissDistanceMax: 2
+  pissSpeed: 4
   killTime: 5
   startPos: {x: 0, y: 0, z: 0}
   controlPos: {x: 0, y: 0, z: 0}
