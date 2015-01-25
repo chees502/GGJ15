@@ -11,6 +11,7 @@ public class asset_deform : MonoBehaviour {
 	public bool bCausesWaterSplash;
 	ParticleSystem psBox;
 	ParticleSystem psWaterSplash;
+	public GameObject customParticlePrefab;
 	public ParticleSystem customParticle;
 
 	public float initHealth = 20.0f;
@@ -48,8 +49,14 @@ public class asset_deform : MonoBehaviour {
 	void Start () {
 		_asset_state = _assetStates.idle;
 		animeCheck ();
+		ConvertGameObjectToPrefab ();
 	}
 
+	void ConvertGameObjectToPrefab(){
+		if (customParticlePrefab != null && customParticle == null) {
+			customParticle = customParticlePrefab.particleSystem;		
+		}
+	}
 	void stateControl(){
 		if (_asset_state == _assetStates.idle) {
 			if(hasAnimation){

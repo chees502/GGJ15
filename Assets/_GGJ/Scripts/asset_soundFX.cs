@@ -14,7 +14,9 @@ public class asset_soundFX : MonoBehaviour {
 	public _sound_states _current_state;
 		// Use this for initialization
 	void Start () {
-	
+		if (GetComponent<AudioSource> () == null) {
+			gameObject.AddComponent<AudioSource>();		
+		}
 
 	}
 	
