@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(asset_deform))]
 public class ScoreCollisionObject : MonoBehaviour {
     public int minHitScore = 1;
     public int maxHitScore = 1;
@@ -11,6 +12,7 @@ public class ScoreCollisionObject : MonoBehaviour {
     public asset_deform assetDeform;
 
     void Awake() {
+        assetDeform = GetComponent<asset_deform>();
         assetDeform.OnObjectDamage += OnObjectDamaged;
         assetDeform.OnObjectDestroy += OnObjectDestroyed;
     }
