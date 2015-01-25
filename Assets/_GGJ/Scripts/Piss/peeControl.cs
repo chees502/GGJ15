@@ -7,7 +7,7 @@ public class peeControl : MonoBehaviour {
 	static public float pissDistance = 0.0f;
 	static public float rateOfFire = 0.2f;
 	public float fireTime = 0.0f;
-
+	static public Vector3 muzzlePos = new Vector3 ();
 //	public float testFloat = 0.0f;
 //	public bool isPressed;
 
@@ -23,10 +23,10 @@ public class peeControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		muzzlePos = transform.position;
 //		if (Input.GetMouseButtonDown (0)) {
-		if(Input.GetButton("Fire1")){
-	//	if(isPissing){
+	//	if(Input.GetButton("Fire1")){
+		if(isPissing){
 			pissDistance += 1.0f;
 			if(Time.time > fireTime+rateOfFire){
 				pee = Instantiate (Resources.Load ("projectile_pee"), transform.position, transform.rotation) as GameObject;
@@ -39,16 +39,16 @@ public class peeControl : MonoBehaviour {
 
 
 
-		if (Input.GetMouseButtonUp (0)) {
-			isPissing = false;
-			pissDistance = 0.0f;
-			Debug.Log(isPissing);
-		}
+	//	if (Input.GetMouseButtonUp (0)) {
+	//		isPissing = false;
+	//		pissDistance = 0.0f;
+	//		Debug.Log(isPissing);
+	//	}
 	}
 
 	void OnDogStageChange( _Dog._DogState newState ){
 		if (newState == _Dog._DogState.Urinating) {
-		//	isPissing = true;
+			isPissing = true;
 		}
 		else{
 			isPissing = false;
