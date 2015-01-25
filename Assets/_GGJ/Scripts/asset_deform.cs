@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(objectDetect))]
+[RequireComponent(typeof(EntityRespawn))]
 public class asset_deform : MonoBehaviour {
 	public bool bHit;
 	public bool bReset;
@@ -22,6 +24,8 @@ public class asset_deform : MonoBehaviour {
 
 	public enum _assetStates{idle,hit,dead,limbo,respawn}
 	public _assetStates _asset_state;
+
+    private EntityRespawn respawner;
 
 	public delegate void BasicEvent();
 	public event BasicEvent OnObjectDamage;
@@ -45,12 +49,32 @@ public class asset_deform : MonoBehaviour {
 			OnObjectRespawn();		
 		}
 	}
+
+    void Awake() {
+        respawner = GetComponent<EntityRespawn>();
+        if (respawner == null) {
+            Debug.LogWarning(string.Format("[asset_deform]: No EntityRespawn script attached to gameobject {0}", gameObject.name));
+        }
+        respawner.OnEntityDestroyed += OnAssetDestroy;
+        respawner.OnEntityRespawned += OnAssetRespawn;
+    }
+
 	// Use this for initialization
 	void Start () {
-		_asset_state = _assetStates.idle;
+        _asset_state = _assetStates.respawn;
 		animeCheck ();
 		ConvertGameObjectToPrefab ();
 	}
+
+    void OnAssetDestroy() {
+        //_asset_state = _assetStates.limbo;
+        TriggerObjectDestroy();
+    }
+
+    void OnAssetRespawn() {
+        _asset_state = _assetStates.respawn;
+        TriggerObjectRespawn();
+    }
 
 	void ConvertGameObjectToPrefab(){
 		if (customParticlePrefab != null && customParticle == null) {
@@ -64,7 +88,10 @@ public class asset_deform : MonoBehaviour {
 			}
 		}
 		if (_asset_state == _assetStates.hit) {
-			health -= damage;
+            _asset_state = _assetStates.idle;
+
+            DamageAsset(damage);
+			
 			if(hasAnimation){
 				if(animation[animation.clip.name].normalizedTime < 0.9f){
 					animation[animation.clip.name].speed = 5*(deformSpeed);
@@ -77,19 +104,13 @@ public class asset_deform : MonoBehaviour {
 			else if(customParticle != null){
 					psBox = Instantiate (customParticle,transform.position, transform.rotation) as ParticleSystem;
 			}
-			if (health <= 0.0f) {
-				health = 0.0f;
-				_asset_state = _assetStates.dead;
-			}
-			TriggerObjectDamage();
 		}
 		if (_asset_state == _assetStates.dead) {
 			gameObject.rigidbody.constraints = RigidbodyConstraints.None;
-			rigidbody.AddExplosionForce(force, Vector3.up * force, 10.0f);	
+			//rigidbody.AddExplosionForce(force, Vector3.up * force, 10.0f);	
 			if(bCausesWaterSplash){
 				psWaterSplash = Instantiate(Resources.Load("psWaterSplash"), transform.position, transform.rotation) as ParticleSystem;
 			}
-			TriggerObjectDestroy();
 			_asset_state = _assetStates.limbo;
 		}
 		if (_asset_state == _assetStates.limbo) {
@@ -107,6 +128,20 @@ public class asset_deform : MonoBehaviour {
 			_asset_state = _assetStates.idle;
 		}
 	}
+
+    public void DamageAsset(float damage) {
+        health -= Mathf.Max(0, damage);
+
+        if (damage > 0) {
+            TriggerObjectDamage();
+        }
+
+        if (health <= 0.0f) {
+            health = 0.0f;
+            _asset_state = _assetStates.dead;
+            respawner.Destroy();
+        }
+    }
 
 	void animeCheck(){
 		if (GetComponent<Animation> () != null) {
