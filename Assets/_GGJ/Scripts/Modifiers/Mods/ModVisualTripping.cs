@@ -5,12 +5,12 @@ public class ModVisualTripping : ModInfo {
     public ModVisualTripping() : base(ModType.VisualTripping) {}
 
     public override void OnEnabled() {
-        abberationBend.Instance.StartTrip(duration);
+        abberationBend.StartAllTripping(duration);
         //ModManager.Instance.SetEffect(ModType.VisualHot, false);
     }
 
     public override void OnDisabled() {
-        abberationBend.Instance.CancelTrip();
+        abberationBend.CancelAllTripping();
     }
 
     public override void OnStay() {

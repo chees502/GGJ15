@@ -1,54 +1,73 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
+[RequireComponent(typeof(Vignetting))]
+[RequireComponent(typeof(TwirlEffect))]
+[RequireComponent(typeof(BloomAndLensFlares))]
+[RequireComponent(typeof(ColorCorrectionCurves))]
 public class abberationBend : MonoBehaviour {
-    static private abberationBend _instance;
-    static public abberationBend Instance {
-        get { return _instance; }
+    static private List<abberationBend> _instances;
+    static public List<abberationBend> Instances {
+        get {
+            if (_instances == null) {
+                _instances = new List<abberationBend>();
+            }
+            return _instances; 
+        }
     }
 
-    public static Vignetting Vignet;
-    public static TwirlEffect Twirl;
-    public static ColorCorrectionCurves CCEffect;
-    public static BloomAndLensFlares Bloom;
-    public static float TrippingTill;
-    public static float TrippingPower = 0;
-    public static bool Tripping = false;
-    public static bool Hot = false;
-    public static float HotTill;
+    public Vignetting Vignet;
+    public TwirlEffect Twirl;
+    public ColorCorrectionCurves CCEffect;
+    public BloomAndLensFlares Bloom;
+    public float TrippingTill;
+    public float TrippingPower = 0;
+    public bool Tripping = false;
+    public bool Hot = false;
+    public float HotTill;
     public bool callScript = false;
-	// Use this for initialization
-    public static void callTripping(float time)
-    {
-        Vignet.enabled = true;
-        Twirl.enabled = true;
-        TrippingTill = Time.time + time;
-        Tripping = true;
-    }
-    public static void callHot(float time)
-    {
-        CCEffect.enabled = true;
-        Bloom.enabled = true;
-        HotTill = Time.time + time;
-        Hot = true;
-    }
-    public static void cancelTripping() 
-    {
-        TrippingPower = 0;
-        Vignet.enabled = false;
-        Twirl.enabled = false;
-        Tripping = false;
-    }
-    public static void cancelHot() 
-    {
 
+	// Use this for initialization
+    public static void StartAllTripping(float time)
+    {
+        Debug.Log("Start All Tripping");
+        foreach (abberationBend bend in Instances) {
+            bend.StartTrip(time);
+        }
+    }
+    public static void StartAllHot(float time)
+    {
+        Debug.Log("Start All Hot");
+        foreach (abberationBend bend in Instances) {
+            bend.StartHot(time);
+        }
+    }
+    public static void CancelAllTripping() 
+    {
+        Debug.Log("Cancel All Tripping");
+        foreach (abberationBend bend in Instances) {
+            bend.CancelTrip();
+        }
+    }
+    public static void CancelAllHot() 
+    {
+        Debug.Log("Cancel All Hot");
+        foreach (abberationBend bend in Instances) {
+            bend.CancelHot();
+        }
     }
 
     void Awake() {
-        if (_instance == null) {
-            _instance = this;
-        } else if (_instance != this) {
-            Debug.LogWarning("[abberationBend]: More then one instance of the script in the scene");
+        if (!Instances.Contains(this)) {
+            Instances.Add(this);
+        }
+    }
+
+    void OnDestroy() {
+        Instances.Remove(this);
+        if (Instances.Count == 0) {
+            _instances = null;
         }
     }
 
@@ -64,17 +83,24 @@ public class abberationBend : MonoBehaviour {
 	}
 
     public void StartTrip(float duration) {
+        if (Tripping == true) return;
+
         Vignet.enabled = true;
         Twirl.enabled = true;
-        TrippingTill = Time.time + duration/2f;
+        TrippingTill = Time.time + duration;
         Tripping = true;
     }
 
     public void CancelTrip() {
-        
+        TrippingPower = 0;
+        Vignet.enabled = false;
+        Twirl.enabled = false;
+        Tripping = false;
     }
 
     public void StartHot(float duration) {
+        if (Hot == true) return;
+
         CCEffect.enabled = true;
         Bloom.enabled = true;
         HotTill = Time.time + duration;
@@ -93,7 +119,7 @@ public class abberationBend : MonoBehaviour {
         {
             callScript = false;
             //callTripping(10);
-            callHot(5);
+            StartHot(5);
         }
         if (Tripping)
         {
