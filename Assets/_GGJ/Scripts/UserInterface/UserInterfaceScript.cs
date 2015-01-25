@@ -5,7 +5,7 @@ public class UserInterfaceScript : MonoBehaviour {
 
     private GameObject TimerObject;
     private GameObject Icon1, Icon2, Icon3, Icon4, Icon5;
-    private GameObject ObjectivesBox, ObjectivesText;
+    private GameObject ObjectivesBox, ObjectivesText, Multiplier;
     private bool[] Moving = { false, false, false, false, false };
     public float timeLeft = 180.0f;
     private bool iconMoving = false;
@@ -346,14 +346,14 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon5.GetComponent<IconScript>().IconPosition = 5;
         //Objective Text
         ObjectivesBox = new GameObject("ObjectivesBox");
-        ObjectivesBox.transform.position = new Vector3(0.8f, 0.98f, -1.0f);
+        ObjectivesBox.transform.position = new Vector3(0.84f, 0.98f, -1.0f);
         ObjectivesBox.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         ObjectivesBox.AddComponent("GUITexture");
         ObjectivesBox.guiTexture.texture = Resources.Load("GUITextures/BlankTexture") as Texture;
         ObjectivesBox.guiTexture.pixelInset = new Rect(-175.0f, -28.0f, 350.0f, 33.0f);
         ObjectivesBox.guiTexture.color = new Color(0.0f, 0.0f, 0.0f, 0.25f);
         ObjectivesText = new GameObject("ObjectivesText");
-        ObjectivesText.transform.position = new Vector3(0.8f, 0.98f, 0.0f);
+        ObjectivesText.transform.position = new Vector3(0.84f, 0.98f, 0.0f);
         ObjectivesText.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         ObjectivesText.AddComponent<ObjectiveScript>();
         ObjectivesText.AddComponent("GUIText");
@@ -361,6 +361,14 @@ public class UserInterfaceScript : MonoBehaviour {
         ObjectivesText.guiText.fontSize = 20;
         ObjectivesText.guiText.anchor = TextAnchor.UpperCenter;
         ObjectivesText.guiText.alignment = TextAlignment.Center;
+        //Multipliers
+        Multiplier = new GameObject("Multiplier");
+        Multiplier.transform.position = new Vector3(0.925f, 0.9f, 0.0f);
+        Multiplier.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
+        Multiplier.AddComponent("GUITexture");
+        Multiplier.guiTexture.texture = Resources.Load("GUITextures/x2") as Texture;
+        Multiplier.guiTexture.pixelInset = new Rect(-32.0f, -32.0f, 64.0f, 64.0f);
+
     }
 
     //On Frame
