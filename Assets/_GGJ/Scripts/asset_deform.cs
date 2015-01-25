@@ -54,8 +54,8 @@ public class asset_deform : MonoBehaviour {
         if (respawner == null) {
             Debug.LogWarning(string.Format("[asset_deform]: No EntityRespawn script attached to gameobject {0}", gameObject.name));
         }
-        respawner.OnEntityDestroyed += OnDestroy;
-        respawner.OnEntityRespawned += OnRespawn;
+        respawner.OnEntityDestroyed += OnAssetDestroy;
+        respawner.OnEntityRespawned += OnAssetRespawn;
     }
 
 	// Use this for initialization
@@ -64,12 +64,12 @@ public class asset_deform : MonoBehaviour {
 		animeCheck ();
 	}
 
-    void OnDestroy() {
+    void OnAssetDestroy() {
         //_asset_state = _assetStates.limbo;
         TriggerObjectDestroy();
     }
 
-    void OnRespawn() {
+    void OnAssetRespawn() {
         _asset_state = _assetStates.respawn;
         TriggerObjectRespawn();
     }
