@@ -7,7 +7,7 @@ public class asset_soundFX : MonoBehaviour {
 
 	public List<AudioClip> soundFXs = new List<AudioClip>();
 
-	public int soundIndex;
+	public int soundIndex = 0;
 	public bool bPlaySound;
 
 	public enum _sound_states{idle,begin,playing,end}
@@ -20,7 +20,9 @@ public class asset_soundFX : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		audio.clip = soundFXs [soundIndex];
+		if(soundFXs.Count > 0){
+			audio.clip = soundFXs [soundIndex];
+		}
 		if(_current_state == _sound_states.begin || bPlaySound){
 			audio.Play ();
 			_current_state = _sound_states.playing;

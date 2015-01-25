@@ -54,12 +54,10 @@ public class jetPackBehave : MonoBehaviour {
 		
 		}
 		if (_current_state == _jetPack_states.endFlight) {
-			travelSpeed = 0.0f;
-			gameObject.AddComponent<Rigidbody>();
-
-			_current_state = _jetPack_states.dead;
+			returnBack();
 		}
 		if (_current_state == _jetPack_states.dead) {
+			travelSpeed = 0.0f;
 
 		}
 	}
@@ -119,6 +117,15 @@ public class jetPackBehave : MonoBehaviour {
 			_current_state = _jetPack_states.endFlight;		
 		}
 	
+	}
+
+	void returnBack(){
+		currentDest = startPos;
+		transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (currentDest - transform.position), turnSpeed * Time.deltaTime);
+		transform.position += transform.forward * travelSpeed * Time.deltaTime;
+		if (Vector3.Distance (transform.position, startPos) < 20.0f) {
+			_current_state = _jetPack_states.dead;		
+		}
 	}
 
 

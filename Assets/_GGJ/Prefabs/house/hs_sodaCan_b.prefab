@@ -11,13 +11,11 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   - 95: {fileID: 9500000}
-  - 114: {fileID: 11400008}
-  - 114: {fileID: 11400006}
   - 114: {fileID: 11400004}
-  - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
+  - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: hs_waterBottle_a
+  m_Name: hs_sodaCan_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +45,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 976ff779529cac949bb4e9ce031e382f, type: 2}
+  - {fileID: 2100000, guid: 54aa5b51aa87aa047852bcdb18cb3229, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -61,7 +59,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mesh: {fileID: 4300000, guid: 4f679e659b869ac44a916497ca9705e3, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 0ca3db3bfed2c2b4e88519614f538bdb, type: 3}
 --- !u!95 &9500000
 Animator:
   serializedVersion: 3
@@ -70,7 +68,7 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4f679e659b869ac44a916497ca9705e3, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 0ca3db3bfed2c2b4e88519614f538bdb, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -98,42 +96,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d3b1f7fbfd44a42b0f324a9a9edd52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bHit: 0
-  bReset: 0
-  deformSpeed: 1
-  currentAnimeTime: 0
-  bCausesWaterSplash: 0
-  customParticle: {fileID: 0}
-  initHealth: 20
-  health: 0
-  damage: 1
-  force: 10
-  stillAlive: 1
-  _asset_state: 0
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 681b596d227c66d44b290dc8c4cacd50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isStationary: 0
-  isDestructable: 0
---- !u!114 &11400006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0c6c15ede0716b4da2d6b3fd2e5c732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -141,7 +103,7 @@ MonoBehaviour:
   soundIndex: 0
   bPlaySound: 0
   _current_state: 0
---- !u!114 &11400008
+--- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
