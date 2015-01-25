@@ -16,8 +16,8 @@ public class ModSpeedDecrease : ModInfo {
     public override void OnEnabled() {
         if (DogCharacterController.Instance != null) {
             DogCharacterController.Instance.speedMultiplier = speedMultiplier;
-           
         }
+        ModManager.Instance.SetEffect(ModType.SpeedIncrease, false);
     }
 
     public override void OnDisabled() {

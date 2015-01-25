@@ -42,6 +42,8 @@ public class ModManager : MonoBehaviour {
         _effects[(int)ModType.SpeedIncrease]    = new ModSpeedIncrease();
         _effects[(int)ModType.InvertControls]   = new ModInvertControls();
         _effects[(int)ModType.SpeedDecrease]    = new ModSpeedDecrease();
+        _effects[(int)ModType.VisualHot]        = new ModVisualHot();
+        _effects[(int)ModType.VisualTripping]   = new ModVisualTripping();
     }
 
     void Start() {

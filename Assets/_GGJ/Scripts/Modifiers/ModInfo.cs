@@ -31,18 +31,22 @@ public class ModInfo {
         }
     }
 
-    public bool enabled;
-    public float duration;
-    public float currentDuration;
+    public bool enabled = false;
+    public float duration = 0;
+    public float currentDuration = 0;
     public ModType type;
 
     public ModInfo() {
-        Set(false, 0);
+        this.enabled = false;
+        this.duration = 0;
+        this.currentDuration = 0;
         this.type = 0;
     }
 
     public ModInfo(ModType type) {
-        Set(false, 0f);
+        this.enabled = false;
+        this.duration = 0;
+        this.currentDuration = 0;
         this.type = type;
     }
 

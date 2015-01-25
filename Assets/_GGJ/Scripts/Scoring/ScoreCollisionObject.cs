@@ -2,9 +2,28 @@
 using System.Collections;
 
 public class ScoreCollisionObject : MonoBehaviour {
-    public int minScore = 1;
-    public int maxScore = 1;
+    public int minHitScore = 1;
+    public int maxHitScore = 1;
 
+    public int minDestroyScore = 1;
+    public int maxDestroyScore = 1;
+
+    public asset_deform assetDeform;
+
+    void Awake() {
+        assetDeform.OnObjectDamage += OnObjectDamaged;
+        assetDeform.OnObjectDestroy += OnObjectDestroyed;
+    }
+
+    void OnObjectDamaged() {
+        GiveScore(minHitScore, maxHitScore);
+    }
+
+    void OnObjectDestroyed() {
+        GiveScore(minDestroyScore, maxDestroyScore);
+    }
+
+    /*
     void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Player") {
             GiveScore();
@@ -16,10 +35,11 @@ public class ScoreCollisionObject : MonoBehaviour {
             }
         }
     }
+     */
 
-    void GiveScore() {
+    void GiveScore(int min, int max) {
         Debug.Log("Giving Score");
-        ScoreManager.Instance.AddScore(Random.Range(minScore, maxScore));
+        ScoreManager.Instance.AddScore(Random.Range(min, max));
         Destroy(this);
     }
 }

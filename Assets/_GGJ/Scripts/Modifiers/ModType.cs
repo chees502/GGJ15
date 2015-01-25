@@ -6,5 +6,7 @@ public enum ModType {
     SpeedIncrease = 1,
     SpeedDecrease = 2,
     InvertControls = 3,
+    VisualTripping = 4,
+    VisualHot = 5,
     
 }
