@@ -38,11 +38,12 @@ public class ModManager : MonoBehaviour {
 
         // Assign which class is to be used for which ModType
         _effects = new ModInfo[Enum.GetNames(typeof(ModType)).Length];
-        _effects[(int)ModType.CameraEffect]     = new ModInfo();
         _effects[(int)ModType.CameraShake]      = new ModCameraShake();
-        _effects[(int)ModType.DogShake]         = new ModInfo();
-        _effects[(int)ModType.MusicEffect]      = new ModInfo();
-        _effects[(int)ModType.SpeedIncrease]    = new ModInfo();
+        _effects[(int)ModType.SpeedIncrease]    = new ModSpeedIncrease();
+        _effects[(int)ModType.InvertControls]   = new ModInvertControls();
+        _effects[(int)ModType.SpeedDecrease]    = new ModSpeedDecrease();
+        _effects[(int)ModType.VisualHot]        = new ModVisualHot();
+        _effects[(int)ModType.VisualTripping]   = new ModVisualTripping();
     }
 
     void Start() {
@@ -69,7 +70,7 @@ public class ModManager : MonoBehaviour {
     public void SetEffect(ModType effect, bool enabled) {
         ModInfo info = GetEffect(effect);
         if (info != null) { 
-            info.Set(enabled);
+            info.SetEnabled(enabled);
         }
     }
 

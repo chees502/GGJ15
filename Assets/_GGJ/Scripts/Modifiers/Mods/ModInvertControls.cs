@@ -1,15 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ModInvertControls : MonoBehaviour {
+public class ModInvertControls : ModInfo {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public ModInvertControls() : base(ModType.InvertControls) {
+        
+    }
+
+    public override void OnEnabled() {
+        if (DogCharacterController.Instance != null) {
+            DogCharacterController.Instance.invertControls = true;
+        }
+    }
+
+    public override void OnDisabled() {
+        if (DogCharacterController.Instance != null) {
+            DogCharacterController.Instance.invertControls = false;
+        }
+    }
+
+    public override void OnStay() {
+
+    }
 }
+

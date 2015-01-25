@@ -2,9 +2,11 @@
 using System.Collections;
 
 public enum ModType {
-    DogShake = 0,
-    CameraShake = 1,
-    SpeedIncrease = 2,
-    CameraEffect = 3,
-    MusicEffect = 4,
+    CameraShake = 0,
+    SpeedIncrease = 1,
+    SpeedDecrease = 2,
+    InvertControls = 3,
+    VisualTripping = 4,
+    VisualHot = 5,
+    
 }

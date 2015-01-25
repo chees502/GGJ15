@@ -42,6 +42,10 @@ public class DogCharacterController : MonoBehaviour {
     public string InputButtonJump = "Jump";
     public string InputButtonFire = "Fire1";
 
+    // Misc Modifiers
+    public bool invertControls = false;
+    public float speedMultiplier = 1f;
+
     public bool IsGrouned
     {
         get { return _isGrounded; }
@@ -113,7 +117,11 @@ public class DogCharacterController : MonoBehaviour {
 
     void HandleInputs()
     {
-        moveVector = new Vector3(Input.GetAxis(InputAxisHorizontal), 0f, Input.GetAxis(InputAxisVertical));
+        moveVector = new Vector3(
+            Input.GetAxis(InputAxisHorizontal) * (invertControls ? -1f : 1f),
+            0f,
+            Input.GetAxis(InputAxisVertical) * (invertControls ? -1f : 1f) 
+            );
 
         if (Input.GetButton(InputButtonFire))
         {
@@ -134,8 +142,8 @@ public class DogCharacterController : MonoBehaviour {
     void Idle()
     {
         // apply acceleration rates
-        moveVector.x *= horizontalAccel;
-        moveVector.y *= verticalAccel;
+        moveVector.x *= horizontalAccel * speedMultiplier;
+        moveVector.y *= verticalAccel * speedMultiplier;
 
         // Apply the jumpInputModifier to the move Vector is not grouned
         moveVector *= _isGrounded ? idleInputModifier : jumpInputModifier;
@@ -146,12 +154,12 @@ public class DogCharacterController : MonoBehaviour {
         // Add move vector to rigidbodies velocity as long as the velocity
         // is below the max velocity to apply input
         Vector2 frLimitied = new Vector2(rigidbody.velocity.x, rigidbody.velocity.z);
-        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < idleMaxForwardRightVel) {
+        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < idleMaxForwardRightVel * speedMultiplier) {
             rigidbody.velocity += moveVector;
         }
 
         // Rotate the based off the mouse x input
-        transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) * cameraLookRate * Time.deltaTime);
+        transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) * (invertControls ? -1f : 1f) * cameraLookRate * Time.deltaTime);
 
         // Handle Jumping
         if (Input.GetButtonDown(InputButtonJump)) {
@@ -167,8 +175,8 @@ public class DogCharacterController : MonoBehaviour {
     void Urinate()
     {
         // apply acceleration rates
-        moveVector.x *= horizontalAccel;
-        moveVector.y *= verticalAccel;
+        moveVector.x *= horizontalAccel * speedMultiplier;
+        moveVector.y *= verticalAccel * speedMultiplier;
 
         // Apply the jumpInputModifier to the move Vector is not grouned
         moveVector *= _isGrounded ? urinInputModifier : jumpInputModifier;
@@ -179,13 +187,13 @@ public class DogCharacterController : MonoBehaviour {
         // Add move vector to rigidbodies velocity as long as the velocity
         // is below the max velocity to apply input
         Vector2 frLimitied = new Vector2(rigidbody.velocity.x, rigidbody.velocity.z);
-        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < idleMaxForwardRightVel)
+        if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < idleMaxForwardRightVel * speedMultiplier)
         {
             rigidbody.velocity += moveVector;
         }
 
         // Rotate the based off the mouse x input
-        transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) *urinRotationModifier * cameraLookRate * Time.deltaTime);
+        transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) * (invertControls ? -1f : 1f) * urinRotationModifier * cameraLookRate * Time.deltaTime);
     }
 
     void OnClimbStart()

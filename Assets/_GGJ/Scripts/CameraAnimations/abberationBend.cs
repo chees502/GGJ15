@@ -2,6 +2,11 @@
 using System.Collections;
 
 public class abberationBend : MonoBehaviour {
+    static private abberationBend _instance;
+    static public abberationBend Instance {
+        get { return _instance; }
+    }
+
     public static Vignetting Vignet;
     public static TwirlEffect Twirl;
     public static ColorCorrectionCurves CCEffect;
@@ -27,6 +32,26 @@ public class abberationBend : MonoBehaviour {
         HotTill = Time.time + time;
         Hot = true;
     }
+    public static void cancelTripping() 
+    {
+        TrippingPower = 0;
+        Vignet.enabled = false;
+        Twirl.enabled = false;
+        Tripping = false;
+    }
+    public static void cancelHot() 
+    {
+
+    }
+
+    void Awake() {
+        if (_instance == null) {
+            _instance = this;
+        } else if (_instance != this) {
+            Debug.LogWarning("[abberationBend]: More then one instance of the script in the scene");
+        }
+    }
+
 	void Start () {
         Vignet = gameObject.GetComponent<Vignetting>();
         Vignet.enabled = false;
@@ -37,7 +62,31 @@ public class abberationBend : MonoBehaviour {
         Bloom = gameObject.GetComponent<BloomAndLensFlares>();
         Bloom.enabled = false;
 	}
-	
+
+    public void StartTrip(float duration) {
+        Vignet.enabled = true;
+        Twirl.enabled = true;
+        TrippingTill = Time.time + duration/2f;
+        Tripping = true;
+    }
+
+    public void CancelTrip() {
+        
+    }
+
+    public void StartHot(float duration) {
+        CCEffect.enabled = true;
+        Bloom.enabled = true;
+        HotTill = Time.time + duration;
+        Hot = true;
+    }
+
+    public void CancelHot() {
+        Hot = false;
+        CCEffect.enabled = false;
+        Bloom.enabled = false;
+    }
+
 	// Update is called once per frame
 	void Update () {
         if (callScript)
