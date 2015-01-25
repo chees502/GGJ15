@@ -39,6 +39,6 @@ public class ModCameraShake : ModInfo {
     }
 
     public override void OnStay() {
-        //Debug.Log("Duration: " + currentDuration);
+        cameraShake.SetDamping(Mathf.Clamp(currentDuration, 0f, 0.4f));
     }
 }
