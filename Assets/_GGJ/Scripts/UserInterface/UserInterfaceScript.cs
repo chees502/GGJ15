@@ -3,11 +3,13 @@ using System.Collections;
 
 public class UserInterfaceScript : MonoBehaviour {
 
-    public GameObject TimerObject;
-    public GameObject Icon1, Icon2, Icon3, Icon4, Icon5;
-    public bool[] Moving = { false, false, false, false, false };
+    private GameObject TimerObject;
+    private GameObject Icon1, Icon2, Icon3, Icon4, Icon5;
+    private GameObject ObjectivesBox, ObjectivesText;
+    private bool[] Moving = { false, false, false, false, false };
     public float timeLeft = 180.0f;
-    public bool iconMoving = false;
+    private bool iconMoving = false;
+    public int curObjective;
 
     private Vector3 pos1 = new Vector3(0.025f, 0.915f, -1.0f);
     private Vector3 pos2 = new Vector3(0.125f, 0.9475f, -2.0f);
@@ -279,10 +281,11 @@ public class UserInterfaceScript : MonoBehaviour {
         }
     }
 
-    //On Start
-    void Start() {
-
-    }    
+    //Objectives!
+    void UpdateObjective(int objective) {
+        
+    }
+   
     void Awake()
     {
         //Create Timer Object
@@ -291,7 +294,7 @@ public class UserInterfaceScript : MonoBehaviour {
         TimerObject.AddComponent("GUIText");
         TimerObject.guiText.anchor = TextAnchor.UpperCenter;
         TimerObject.guiText.alignment = TextAlignment.Center;
-        TimerObject.guiText.fontSize = 20;
+        TimerObject.guiText.fontSize = 32;
         FormatTime(timeLeft);
         //Create Icons
         //Icon 01
@@ -341,11 +344,29 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon5.guiTexture.color = Transparent;
         Icon5.AddComponent<IconScript>();
         Icon5.GetComponent<IconScript>().IconPosition = 5;
+        //Objective Text
+        ObjectivesBox = new GameObject("ObjectivesBox");
+        ObjectivesBox.transform.position = new Vector3(0.8f, 0.98f, -1.0f);
+        ObjectivesBox.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
+        ObjectivesBox.AddComponent("GUITexture");
+        ObjectivesBox.guiTexture.texture = Resources.Load("GUITextures/BlankTexture") as Texture;
+        ObjectivesBox.guiTexture.pixelInset = new Rect(-175.0f, -28.0f, 350.0f, 33.0f);
+        ObjectivesBox.guiTexture.color = new Color(0.0f, 0.0f, 0.0f, 0.25f);
+        ObjectivesText = new GameObject("ObjectivesText");
+        ObjectivesText.transform.position = new Vector3(0.8f, 0.98f, 0.0f);
+        ObjectivesText.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
+        ObjectivesText.AddComponent<ObjectiveScript>();
+        ObjectivesText.AddComponent("GUIText");
+        ObjectivesText.guiText.text = ObjectivesText.GetComponent<ObjectiveScript>().ObjectiveDesc[curObjective];
+        ObjectivesText.guiText.fontSize = 20;
+        ObjectivesText.guiText.anchor = TextAnchor.UpperCenter;
+        ObjectivesText.guiText.alignment = TextAlignment.Center;
     }
 
     //On Frame
     void Update() {
         Countdown();
         AnimateIcons();
+        UpdateObjective(curObjective);
     }
 }

@@ -87,7 +87,6 @@ GameObject:
   - 124: {fileID: 1890077130}
   - 81: {fileID: 1890077129}
   - 114: {fileID: 1890077134}
-  - 114: {fileID: 1890077135}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -168,28 +167,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1890077128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce638565f5e844748b4c833eb57ff162, type: 3}
+  m_Script: {fileID: 11500000, guid: 9aa560caf950c664db8d3ed9052ae887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimerObject: {fileID: 0}
-  Icon1: {fileID: 0}
-  Icon2: {fileID: 0}
-  Icon3: {fileID: 0}
-  Icon4: {fileID: 0}
-  Icon5: {fileID: 0}
-  Moving: 0000000000
   timeLeft: 180
-  iconMoving: 1
---- !u!114 &1890077135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1890077128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a2bf2e1a274524f892073dcf270141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxStreakDuration: 4
-  itemsPerMultiplier: 5
+  curObjective: 0
