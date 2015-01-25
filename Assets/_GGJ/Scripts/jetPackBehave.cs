@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class jetPackBehave : MonoBehaviour {
 
+	public Bounds bound;
+
 	public enum _jetPack_states{idle, touched, flying, endFlight, dead}
 	public _jetPack_states _current_state;
 
@@ -16,17 +18,23 @@ public class jetPackBehave : MonoBehaviour {
 
 	float BezierTime = 0.0f;
 	int currentPoint;
-	public float travelSpeed = 20.0f;
+	public float accRate = 2.0f;
+	public float maxTravelSpeed = 80.0f;
+	public float travelSpeed = 0.0f;
 	public float turnSpeed = 2.0f;
 	Vector3 currentDest = new Vector3();
-
-	Vector3 minBound = new Vector3();
-	Vector3 maxBound = new Vector3();
+	public float destStartTime = 0.0f;
+	public float limitTime = 5.0f;
+	public float debugTime = 0.0f;//Time.deltaTime;
 	public bool testFlight;
+
+	//public List<ParticleSystem> pSystems = new List<ParticleSystem>();
+	public ParticleSystem[] pSystems = new ParticleSystem[3];
 	// Use this for initialization
 	void Start () {
-		minBound = new Vector3 (-400.0f, 10.0f, -400.0f);
-		maxBound = new Vector3 (400.0f, 50.0f, 400.0f);
+		debugTime = Time.deltaTime;
+		pSystems = GetComponentsInChildren<ParticleSystem> ();
+		bound = _GameManager.SceneBound;
 	}
 	
 	// Update is called once per frame
@@ -40,9 +48,16 @@ public class jetPackBehave : MonoBehaviour {
 
 	void StateManager(){
 		if (_current_state == _jetPack_states.idle) {
+			foreach (ParticleSystem ps in pSystems) {
+				ps.emissionRate = 0.0f;		
+			}
 			currentPoint = 0;
 		}
 		if (_current_state == _jetPack_states.touched) {
+			foreach (ParticleSystem ps in pSystems) {
+				ps.emissionRate = 120.0f;	
+				destStartTime = Time.time;
+			}
 			startPos = transform.position;
 			if(autoGenPoints){
 				createDestinationPoints(howManyPoints);
@@ -52,11 +67,17 @@ public class jetPackBehave : MonoBehaviour {
 			_current_state = _jetPack_states.flying;
 		}
 		if (_current_state == _jetPack_states.flying) {
+			if(travelSpeed < maxTravelSpeed){
+				travelSpeed += accRate * Time.deltaTime;
+			}
 		//	bezierCalc(howManyPoints);
 			travel();
 		
 		}
 		if (_current_state == _jetPack_states.endFlight) {
+			foreach (ParticleSystem ps in pSystems) {
+				ps.emissionRate = 0.0f;		
+			}
 			returnBack();
 		}
 		if (_current_state == _jetPack_states.dead) {
@@ -65,15 +86,17 @@ public class jetPackBehave : MonoBehaviour {
 		}
 	}
 	void createDestinationPoints(int points){
-		Bounds bound = new Bounds ();
-		bound.SetMinMax (minBound, maxBound);
-
+				
 		Vector3 point = startPos;
 		Vector3 tempVec = new Vector3 ();
 		for (int i = 0; i<points; i++) {
-			float x = Random.Range(point.x - 200.0f, point.x + 200.0f);
-			float y = Random.Range(point.y, point.y + 20.0f);
-			float z = Random.Range(point.z - 200.0f, point.z + 200.0f);
+		//	float x = Random.Range(point.x - 200.0f, point.x + 200.0f);
+		//	float y = Random.Range(point.y, point.y + 20.0f);
+		//	float z = Random.Range(point.z - 200.0f, point.z + 200.0f);
+
+			float x = Random.Range(bound.min.x, bound.max.x);
+			float y = Random.Range(bound.min.y, bound.max.y);
+			float z = Random.Range(bound.min.z, bound.max.z);
 
 			tempVec = new Vector3(x,y,z);
 			endPos.Add (new Vector3(x,y,z));
@@ -119,10 +142,12 @@ public class jetPackBehave : MonoBehaviour {
 	//	transform.position = Vector3.MoveTowards (transform.position, currentDest, travelSpeed * Time.deltaTime);
 		transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (currentDest - transform.position), turnSpeed * Time.deltaTime);
 		transform.position += transform.forward * travelSpeed * Time.deltaTime;
-		if (Vector3.Distance (transform.position, currentDest) < 20.0f) {
+		if (Vector3.Distance (transform.position, currentDest) < 20.0f || Time.deltaTime > destStartTime+limitTime) {
+			destStartTime = Time.deltaTime;
 			currentPoint++;		
 		}
 		if (currentPoint >= howManyPoints) {
+			destStartTime = 0.0f;
 			_current_state = _jetPack_states.endFlight;		
 		}
 	
