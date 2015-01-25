@@ -5,6 +5,11 @@ public class Grabber : MonoBehaviour {
 	public bool holding=false;
     public Transform heldItem;
     public SpringJoint heldItemJoint;
+
+    private ScoreDogHitObject objectScore;
+    private EntityRespawn objectRespawn;
+    private objectDetect objectDetec;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -23,6 +28,10 @@ public class Grabber : MonoBehaviour {
         else
         {
             _Dog.maw.mouthOpen = false;
+
+            if (objectScore != null) {
+                objectScore.Refresh();
+            }
 
         }
 
@@ -51,12 +60,31 @@ public class Grabber : MonoBehaviour {
                 heldItemJoint.connectedBody = gameObject.GetComponent<Rigidbody>();
                 heldItemJoint.spring = 30;
                 heldItemJoint.maxDistance = 0;
+
+                objectScore = heldItemJoint.gameObject.GetComponent<ScoreDogHitObject>();
+                if (objectScore == null) {
+                    objectScore = heldItemJoint.gameObject.AddComponent<ScoreDogHitObject>();
+                }
+
+                objectRespawn = heldItemJoint.gameObject.GetComponent<EntityRespawn>();
+                objectRespawn.OnEntityDestroyed += OnObjectDestroyed;
+
+                objectDetec = heldItemJoint.gameObject.GetComponent<objectDetect>();
+                objectDetec.isGrabbed = true;
             }
         }
     }
     void Release()
     {
         holding = false;
+        objectScore = null;
+        objectRespawn = null;
+        objectDetec.isGrabbed = false;
         Destroy(heldItemJoint);
+    }
+
+    void OnObjectDestroyed() {
+        objectRespawn.OnEntityDestroyed -= OnObjectDestroyed;
+        Release();
     }
 }

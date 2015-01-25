@@ -20,10 +20,13 @@ public class jetPackBehave : MonoBehaviour {
 	public float turnSpeed = 2.0f;
 	Vector3 currentDest = new Vector3();
 
+	Vector3 minBound = new Vector3();
+	Vector3 maxBound = new Vector3();
 	public bool testFlight;
 	// Use this for initialization
 	void Start () {
-	
+		minBound = new Vector3 (-400.0f, 10.0f, -400.0f);
+		maxBound = new Vector3 (400.0f, 50.0f, 400.0f);
 	}
 	
 	// Update is called once per frame
@@ -62,11 +65,17 @@ public class jetPackBehave : MonoBehaviour {
 		}
 	}
 	void createDestinationPoints(int points){
+		Bounds bound = new Bounds ();
+		bound.SetMinMax (minBound, maxBound);
+
 		Vector3 point = startPos;
+		Vector3 tempVec = new Vector3 ();
 		for (int i = 0; i<points; i++) {
 			float x = Random.Range(point.x - 200.0f, point.x + 200.0f);
 			float y = Random.Range(point.y, point.y + 20.0f);
 			float z = Random.Range(point.z - 200.0f, point.z + 200.0f);
+
+			tempVec = new Vector3(x,y,z);
 			endPos.Add (new Vector3(x,y,z));
 			point = endPos[i];
 		}

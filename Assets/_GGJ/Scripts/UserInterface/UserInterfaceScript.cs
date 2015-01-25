@@ -5,11 +5,14 @@ public class UserInterfaceScript : MonoBehaviour {
 
     private GameObject TimerObject;
     private GameObject Icon1, Icon2, Icon3, Icon4, Icon5;
-    private GameObject ObjectivesBox, ObjectivesText, Multiplier, StreakBar;
+    private GameObject ObjectivesBox, ObjectivesText, Multiplier, StreakBar, ScoreBoard;
     private bool[] Moving = { false, false, false, false, false };
     public float timeLeft = 180.0f;
     private bool iconMoving = false;
     public int curObjective;
+    public int curMultiplier = 1;
+    public int curStreak = 0;
+    public int curScore = 0;
 
     private Vector3 pos1 = new Vector3(0.025f, 0.915f, -1.0f);
     private Vector3 pos2 = new Vector3(0.125f, 0.9475f, -2.0f);
@@ -22,6 +25,33 @@ public class UserInterfaceScript : MonoBehaviour {
 
     private Color Opaque = new Color(128.0f, 128.0f, 128.0f, 128.0f);
     private Color Transparent = new Color(128.0f, 128.0f, 128.0f, 0.0f);
+
+    int[] streakScale = { 1, 3, 5, 8, 11, 15, 19 };
+    string[] streakTextures = { 
+        "GUITextures/RefuseBar0", 
+        "GUITextures/RefuseBar1", 
+        "GUITextures/RefuseBar2", 
+        "GUITextures/RefuseBar3", 
+        "GUITextures/RefuseBar4", 
+        "GUITextures/RefuseBar5", 
+        "GUITextures/RefuseBar6", 
+        "GUITextures/RefuseBar7", 
+        "GUITextures/RefuseBar8", 
+        "GUITextures/RefuseBar9", 
+        "GUITextures/RefuseBar10", 
+        "GUITextures/RefuseBar11", 
+        "GUITextures/RefuseBar12", 
+        "GUITextures/RefuseBar13", 
+        "GUITextures/RefuseBar14" 
+    };
+
+    string[] MultiplierTextures = {
+        "",
+        "GUITextures/x2", 
+        "GUITextures/x4", 
+        "GUITextures/x6", 
+        "GUITextures/x8" 
+    };
 
     //Timer
     void FormatTime(float time) {
@@ -184,6 +214,7 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon.guiTexture.pixelInset = new Rect(EndInset.x, y, w, h);
     }
 
+    //Icon  Scripts
     int GetIconPosition(GameObject Icon){
         return Icon.GetComponent<IconScript>().IconPosition;
     }
@@ -285,9 +316,48 @@ public class UserInterfaceScript : MonoBehaviour {
     void UpdateObjective(int objective) {
         
     }
-   
+
+    //Multiplier
+    void SetMultiplierTexture(GameObject MultiplierGO, string MultiplierTexture) {
+        MultiplierGO.guiTexture.texture = Resources.Load(MultiplierTexture) as Texture;
+    }
+
+    void AddMultiplier(int newVal, int oldVal) {
+        oldVal += newVal;
+        curMultiplier = oldVal;
+    }
+    void UpdateMultiplier(GameObject MultiplierGO){
+        SetMultiplierTexture(MultiplierGO, MultiplierTextures[curMultiplier]);
+    }
+
+    //Streak
+    void SetStreakTexture(GameObject StreakGO, string streakTexture) {
+        StreakGO.guiTexture.texture = Resources.Load(streakTexture) as Texture;
+    }
+
+    void AddStreak(int newVal, int OldVal) {
+        OldVal += newVal;
+        curStreak = OldVal;
+    }
+
+    void UpdateStreak(GameObject StreakGO) {
+        SetStreakTexture(StreakGO, streakTextures[curStreak]);
+    }
+    //Score
+    void AddScore(int newVal, int oldVal) {
+        oldVal += newVal * curMultiplier;
+        curScore = oldVal;
+    }
+
+    void UpdateScore(GameObject ScoreBoardGO) {
+        ScoreBoard.guiText.text = curScore.ToString();
+    }
+
     void Awake()
     {
+        ScoreManager.OnScoreChange += AddScore;
+        ScoreManager.OnStreakChange += AddStreak;
+        ScoreManager.OnMultiplierChange += AddMultiplier;
         //Create Timer Object
         TimerObject = new GameObject("Timer");
         TimerObject.transform.position = new Vector3(0.5f, 0.98f, 0.5f);
@@ -367,6 +437,7 @@ public class UserInterfaceScript : MonoBehaviour {
         Multiplier.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         Multiplier.AddComponent("GUITexture");
         Multiplier.guiTexture.texture = Resources.Load("GUITextures/x2") as Texture;
+        Multiplier.guiTexture.color = new Color(0.5f, 0.5f, 0.5f, 0.0f);
         Multiplier.guiTexture.pixelInset = new Rect(-32.0f, -32.0f, 64.0f, 64.0f);
         //Streak Bar
         StreakBar = new GameObject("StreakBar");
@@ -375,8 +446,15 @@ public class UserInterfaceScript : MonoBehaviour {
         StreakBar.AddComponent("GUITexture");
         StreakBar.guiTexture.texture = Resources.Load("GUITextures/RefuseBar0") as Texture;
         StreakBar.guiTexture.pixelInset = new Rect(-37.5f, 0.0f, 75.0f, 400.0f);
-
-
+        //Score Board
+        ScoreBoard = new GameObject("ScoreBoard");
+        ScoreBoard.transform.position = new Vector3();
+        ScoreBoard.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
+        ScoreBoard.AddComponent("GUIText");
+        ScoreBoard.guiText.text = curScore.ToString();
+        ScoreBoard.guiText.fontSize = 24;
+        ScoreBoard.guiText.anchor = TextAnchor.UpperCenter;
+        ScoreBoard.guiText.alignment = TextAlignment.Right;
     }
 
     //On Frame
@@ -384,5 +462,8 @@ public class UserInterfaceScript : MonoBehaviour {
         Countdown();
         AnimateIcons();
         UpdateObjective(curObjective);
+        UpdateScore(ScoreBoard);
+        UpdateStreak(StreakBar);
+        UpdateMultiplier(Multiplier);
     }
 }
