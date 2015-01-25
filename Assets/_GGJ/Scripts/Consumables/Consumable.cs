@@ -25,8 +25,8 @@ public class Consumable : MonoBehaviour {
 
         foreach (Modifier mod in onUseModEnabled) {
             ModInfo info = ModManager.Instance.GetEffect(mod.type);
-            info.SetEnabled(true);
             info.SetDuration(mod.duration);
+            info.SetEnabled(true);
         }
     }
 }
