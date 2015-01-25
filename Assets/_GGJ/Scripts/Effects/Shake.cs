@@ -75,6 +75,8 @@ public class Shake : MonoBehaviour {
     public void TurnShakeOff() {
         TogglePosShake(false, false, false);
         ToggleRotShake(false, false, false);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
     }
 
     public void ForceUpdate(bool positon, bool rotation) {
