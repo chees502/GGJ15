@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 606508af361f83d4b810607b39f778ef
+guid: 605b75a48aecc1348ac2f628e93e43eb
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -7,7 +7,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: clothesLine
+    4300000: fireExtinguisher
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -28,7 +28,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: .00999999978
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
