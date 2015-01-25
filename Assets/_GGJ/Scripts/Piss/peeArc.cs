@@ -83,6 +83,7 @@ public class peeArc : MonoBehaviour {
 		//	Vector3 dirHitRot = new Vector3 (dirHit.x * 360.0f, dirHit.y * 360.0f, dirHit.z * 360.0f);
 			Debug.Log (hitRot);
 			splash = Instantiate (Resources.Load ("psPeeSplash"), transform.position, hitRot) as ParticleSystem;
+		//	col.rigidbody.AddForceAtPosition(transform.forward, transform.position);
 			Destroy (gameObject);
 		}
 	}

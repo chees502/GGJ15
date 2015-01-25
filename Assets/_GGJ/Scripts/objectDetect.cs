@@ -14,6 +14,10 @@ public class objectDetect : MonoBehaviour {
 		if(gameObject.GetComponent<Rigidbody>() == null){
 			gameObject.AddComponent<Rigidbody> ();
 		}
+		if (gameObject.GetComponent<Collider> () == null) {
+			gameObject.AddComponent<BoxCollider>();
+			Debug.Log("no collider");		
+		}
 		//		gameObject.rigidbody.freezeRotation = true;
 		if(isStationary){
 			gameObject.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
