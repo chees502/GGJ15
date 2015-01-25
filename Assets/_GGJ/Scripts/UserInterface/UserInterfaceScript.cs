@@ -5,7 +5,9 @@ public class UserInterfaceScript : MonoBehaviour {
 
     public GameObject TimerObject;
     public GameObject Icon1, Icon2, Icon3, Icon4, Icon5;
+    public bool[] Moving = { false, false, false, false, false };
     public float timeLeft = 180.0f;
+    public bool iconMoving = false;
 
     private Vector3 pos1 = new Vector3(0.025f, 0.915f, -1.0f);
     private Vector3 pos2 = new Vector3(0.125f, 0.9475f, -2.0f);
@@ -19,6 +21,7 @@ public class UserInterfaceScript : MonoBehaviour {
     private Color Opaque = new Color(128.0f, 128.0f, 128.0f, 128.0f);
     private Color Transparent = new Color(128.0f, 128.0f, 128.0f, 0.0f);
 
+    //Timer
     void FormatTime(float time) {
         int minutes = (int)time / 60;
         int seconds = (int)time % 60;
@@ -34,6 +37,7 @@ public class UserInterfaceScript : MonoBehaviour {
         }
     }
     
+    //Icon Animations
     void FadeIn(GameObject Icon)
     {
         if (Icon.guiTexture.color.a >= 128.0f)
@@ -178,19 +182,107 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon.guiTexture.pixelInset = new Rect(EndInset.x, y, w, h);
     }
 
-    void GetIconPosition(GameObject Icon){
-    
+    int GetIconPosition(GameObject Icon){
+        return Icon.GetComponent<IconScript>().IconPosition;
     }
 
-    void SetIconTexture(GameObject Icon, Texture IconTexture) {
+    void SetIconTexture(GameObject Icon, Texture IconTexture)
+    {
         Icon.guiTexture.texture = IconTexture;
     }
 
-    void AnimateIcons() {
+    void MoveIcon(GameObject Icon, int num) {
+        int position = GetIconPosition(Icon);
+        if (position == 1)
+        {
+            FadeOut(Icon);
+            SlideDown(Icon, pos5, 4);
+            SlideRight(Icon, pos5, 2f);
+            ScaleDown(Icon, inset2);
+        }
+        else if (position == 2)
+        {
+            SlideLeft(Icon, pos1, 2);
+            SlideDown(Icon, pos1, 3);
+            ScaleUp(Icon, inset1);
+        }
+        else if(position == 3)
+        {
+            SlideLeft(Icon, pos2, 1);        
+        }
+        else if (position == 4)
+        {
+            FadeIn(Icon);
+            SlideUp(Icon, pos3, 5);        
+        }
+        else if(position == 5)
+        {
+            SlideRight(Icon, pos4, 1);
+        }
+        else
+        {
 
+        }
+        Moving[num] = CheckMoving(Icon);        
+    }
+    
+    bool CheckMoving(GameObject Icon)
+    {
+        //Check to make sure all x translations are complete
+        if (Icon.transform.position.x == pos1.x || Icon.transform.position.x == pos2.x || Icon.transform.position.x == pos3.x || Icon.transform.position.x == pos4.x || Icon.transform.position.x == pos5.x)
+        {
+            //Check to make sure all y translations are complete
+            if (Icon.transform.position.y == pos1.y || Icon.transform.position.y == pos2.y || Icon.transform.position.y == pos3.y || Icon.transform.position.y == pos4.y || Icon.transform.position.y == pos1.y)
+            {
+                //Check to make sure all y offsets are complete
+                if (Icon.guiTexture.pixelInset.y == inset1.y || Icon.guiTexture.pixelInset.y == inset2.y) { 
+                    //Check to make sure all width scaling is complete
+                    if (Icon.guiTexture.pixelInset.width == inset1.width || Icon.guiTexture.pixelInset.width == inset2.width) { 
+                        //Check to make sure all height scalling is complete
+                        if (Icon.guiTexture.pixelInset.height == inset1.height || Icon.guiTexture.pixelInset.height == inset2.height)
+                        {
+                            return false;
+                        }
+                        else return true;
+                    }
+                    else return true;
+                }
+                else return true;
+            }
+            else return true;
+        }
+        else return true;
+    }
+
+    bool CheckFullRotation(){
+        if(!Moving[0] && !Moving[1] && !Moving[2] && !Moving[3] && !Moving[4]){
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+    void AnimateIcons() {
+        if(iconMoving)
+        {
+            GameObject[] Icons = { Icon1, Icon2, Icon3, Icon4, Icon5 };
+            for (int i = 0; i < 5; i++) { 
+                MoveIcon(Icons[i], i);
+            }
+            iconMoving = CheckFullRotation();
+            if (iconMoving == false) {
+                for (int ii = 0; ii < Icons.Length; ii++) {
+                    Icons[ii].GetComponent<IconScript>().IconPosition -= 1;
+                    if (Icons[ii].GetComponent<IconScript>().IconPosition <= 0) Icons[ii].GetComponent<IconScript>().IconPosition = 5;
+                }
+            }
+        }
     }
 
     //On Start
+    void Start() {
+
+    }    
     void Awake()
     {
         //Create Timer Object
@@ -254,15 +346,6 @@ public class UserInterfaceScript : MonoBehaviour {
     //On Frame
     void Update() {
         Countdown();
-        FadeOut(Icon1);
-        SlideDown(Icon1, pos5, 4);
-        SlideRight(Icon1, pos5, 2f);
-        ScaleDown(Icon1, inset2);
-        FadeIn(Icon4);
-        SlideLeft(Icon2, pos1, 2);
-        SlideDown(Icon2, pos1, 3);
-        ScaleUp(Icon2, inset1);
-        SlideLeft(Icon3, pos2, 1);
-        SlideUp(Icon4, pos3, 5);
+        AnimateIcons();
     }
 }

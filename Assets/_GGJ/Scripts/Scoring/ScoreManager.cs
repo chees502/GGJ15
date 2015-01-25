@@ -25,9 +25,9 @@ public class ScoreManager : MonoBehaviour {
     }
 
     public delegate void IntValueChangeEvent(int newValue, int oldValue);
-    public event IntValueChangeEvent OnScoreChange;
-    public event IntValueChangeEvent OnStreakChange;
-    public event IntValueChangeEvent OnMultiplierChange;
+    public static event IntValueChangeEvent OnScoreChange;
+    public static event IntValueChangeEvent OnStreakChange;
+    public static event IntValueChangeEvent OnMultiplierChange;
 
     private int _score;
     private int _streak;
