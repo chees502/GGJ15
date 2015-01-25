@@ -5,7 +5,7 @@ public class UserInterfaceScript : MonoBehaviour {
 
     private GameObject TimerObject;
     private GameObject Icon1, Icon2, Icon3, Icon4, Icon5;
-    private GameObject ObjectivesBox, ObjectivesText, Multiplier;
+    private GameObject ObjectivesBox, ObjectivesText, Multiplier, StreakBar;
     private bool[] Moving = { false, false, false, false, false };
     public float timeLeft = 180.0f;
     private bool iconMoving = false;
@@ -302,7 +302,7 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon1.transform.position = new Vector3(0.025f, 0.915f, 0.0f);
         Icon1.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         Icon1.AddComponent("GUITexture");
-        Icon1.guiTexture.texture = Resources.Load("GUITextures/PickupPlaceHolder1") as Texture;
+        Icon1.guiTexture.texture = Resources.Load("GUITextures/EmptyPickup") as Texture;
         Icon1.guiTexture.pixelInset = new Rect(0.0f, -50.0f, 100.0f, 100.0f);
         Icon1.AddComponent<IconScript>();
         Icon1.GetComponent<IconScript>().IconPosition = 1;
@@ -311,7 +311,7 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon2.transform.position = new Vector3(0.125f, 0.9475f, 0.0f);
         Icon2.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         Icon2.AddComponent("GUITexture");
-        Icon2.guiTexture.texture = Resources.Load("GUITextures/PickupPlaceHolder2") as Texture;
+        Icon2.guiTexture.texture = Resources.Load("GUITextures/EmptyPickup") as Texture;
         Icon2.guiTexture.pixelInset = new Rect(0.0f, -25.0f, 50.0f, 50.0f);
         Icon2.AddComponent<IconScript>();
         Icon2.GetComponent<IconScript>().IconPosition = 2;
@@ -320,7 +320,7 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon3.transform.position = new Vector3(0.175f, 0.9475f, 0.0f);
         Icon3.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         Icon3.AddComponent("GUITexture");
-        Icon3.guiTexture.texture = Resources.Load("GUITextures/PickupPlaceHolder3") as Texture;
+        Icon3.guiTexture.texture = Resources.Load("GUITextures/EmptyPickup") as Texture;
         Icon3.guiTexture.pixelInset = new Rect(0.0f, -25.0f, 50.0f, 50.0f);
         Icon3.AddComponent<IconScript>();
         Icon3.GetComponent<IconScript>().IconPosition = 3;
@@ -329,7 +329,7 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon4.transform.position = new Vector3(0.175f, 0.88125f, 0.0f);
         Icon4.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         Icon4.AddComponent("GUITexture");
-        Icon4.guiTexture.texture = Resources.Load("GUITextures/PickupPlaceHolder4") as Texture;
+        Icon4.guiTexture.texture = Resources.Load("GUITextures/EmptyPickup") as Texture;
         Icon4.guiTexture.pixelInset = new Rect(0.0f, -25.0f, 50.0f, 50.0f);
         Icon4.guiTexture.color = Transparent;
         Icon4.AddComponent<IconScript>();
@@ -339,7 +339,7 @@ public class UserInterfaceScript : MonoBehaviour {
         Icon5.transform.position = new Vector3(0.125f, 0.88125f, 0.0f);
         Icon5.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         Icon5.AddComponent("GUITexture");
-        Icon5.guiTexture.texture = Resources.Load("GUITextures/PickupPlaceHolder5") as Texture;
+        Icon5.guiTexture.texture = Resources.Load("GUITextures/EmptyPickup") as Texture;
         Icon5.guiTexture.pixelInset = new Rect(0.0f, -25.0f, 50.0f, 50.0f);
         Icon5.guiTexture.color = Transparent;
         Icon5.AddComponent<IconScript>();
@@ -368,6 +368,14 @@ public class UserInterfaceScript : MonoBehaviour {
         Multiplier.AddComponent("GUITexture");
         Multiplier.guiTexture.texture = Resources.Load("GUITextures/x2") as Texture;
         Multiplier.guiTexture.pixelInset = new Rect(-32.0f, -32.0f, 64.0f, 64.0f);
+        //Streak Bar
+        StreakBar = new GameObject("StreakBar");
+        StreakBar.transform.position = new Vector3(0.925f, 0.3f, 0.0f);
+        StreakBar.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
+        StreakBar.AddComponent("GUITexture");
+        StreakBar.guiTexture.texture = Resources.Load("GUITextures/RefuseBar0") as Texture;
+        StreakBar.guiTexture.pixelInset = new Rect(-37.5f, 0.0f, 75.0f, 400.0f);
+
 
     }
 
