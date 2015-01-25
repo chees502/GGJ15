@@ -21,13 +21,19 @@ public class Shake : MonoBehaviour {
     public bool rotShakeX, rotShakeY, rotShakeZ;
 
     private Vector3 _targetPosition;
+    private Vector3 _actualPosition;
     private Vector3 _targetRotation;
+    private Vector3 _actualRotation;
     private float _nextPositionUpdate;
     private float _nextRotationUpdate;
 
+    public float _damp = 1f;
+
 	void Start () {
         _targetPosition = GetNewTargetPos();
+        _actualPosition = Vector3.zero;
         _targetRotation = GetNewTargetRot();
+        _actualRotation = Vector3.zero;
         _nextPositionUpdate = posUpdateRate;
         _nextRotationUpdate = rotUpdateRate;
 	}
@@ -40,10 +46,15 @@ public class Shake : MonoBehaviour {
                 ForceUpdate(true, false);
             }
 
-            transform.localPosition = Vector3.Lerp(
-                transform.localPosition,
+            _actualPosition = Vector3.Lerp(
+                _actualPosition,
                 _targetPosition,
                 posLerpRate * Time.deltaTime);
+
+            transform.localPosition = Vector3.Lerp(
+                _actualPosition,
+                Vector3.zero,
+                _damp);
         }
 
         if (rotShakeX || rotShakeY || rotShakeZ) {
@@ -53,10 +64,15 @@ public class Shake : MonoBehaviour {
                 ForceUpdate(false, true);
             }
 
-            transform.localRotation = Quaternion.Slerp(
-                transform.localRotation,
+            _actualRotation = Quaternion.Slerp(
+                Quaternion.Euler(_actualRotation),
                 Quaternion.Euler(_targetRotation),
-                rotLerpRate * Time.deltaTime);
+                rotLerpRate * Time.deltaTime).eulerAngles;
+
+            transform.localRotation = Quaternion.Slerp(
+                Quaternion.Euler(_actualRotation),
+                Quaternion.identity,
+                _damp);
         }
 	}
 
@@ -75,6 +91,12 @@ public class Shake : MonoBehaviour {
     public void TurnShakeOff() {
         TogglePosShake(false, false, false);
         ToggleRotShake(false, false, false);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+    }
+
+    public void SetDamping(float value) {
+        _damp = 1 - Mathf.Clamp(value, 0f, 1f);
     }
 
     public void ForceUpdate(bool positon, bool rotation) {
