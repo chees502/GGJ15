@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour {
     public _menuState menuState = _menuState.MainMenu;
     public Renderer menuItemTexture;
     public Texture2D[] menus;
+    public Camera creditCam;
     private int _currentState = 0;
     public int currentState
     {
@@ -86,6 +87,7 @@ public class MainMenu : MonoBehaviour {
                 case 3:
                     menuState = _menuState.Credits;
                     currentState = 5;
+                    creditCam.enabled = true;
                     break;
                 case 4:
                     Application.CancelQuit();
@@ -137,6 +139,7 @@ public class MainMenu : MonoBehaviour {
         {
             menuState = _menuState.MainMenu;
             currentState = 0;
+            creditCam.enabled = false;
         }
     }
     void Options()

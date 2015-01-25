@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TileScroll : MonoBehaviour {
+public class NameScroll : MonoBehaviour {
     Renderer myRender;
 	// Use this for initialization
 	void Start () {
@@ -10,6 +10,6 @@ public class TileScroll : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        myRender.material.SetTextureOffset("_MainTex", new Vector2(Time.time*-0.2f, 0));
+        myRender.material.SetTextureOffset("_MainTex", new Vector2(Time.time*0.027f, 0));
 	}
 }
