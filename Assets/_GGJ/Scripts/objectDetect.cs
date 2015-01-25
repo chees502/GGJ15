@@ -7,6 +7,8 @@ public class objectDetect : MonoBehaviour {
 	public bool isStationary;
 	public bool isDestructable;
 
+    [HideInInspector]
+    public bool isGrabbed = false;
 	// Use this for initialization
 
 	void Awake(){
@@ -34,7 +36,8 @@ public class objectDetect : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		if(collision.gameObject.tag == "Player" ||
+		if(isGrabbed ||
+            collision.gameObject.tag == "Player" ||
 		   collision.gameObject.tag == "Projectiles" ||
            collision.gameObject.GetComponent<ScoreDogHitObject>() != null) {
 			foreach (ContactPoint contact in collision.contacts) {
@@ -42,17 +45,19 @@ public class objectDetect : MonoBehaviour {
 				//Debug.Log(contact.point);
 			}
 	//		deformScript.bHit = true;
-			if(deformScript._asset_state != asset_deform._assetStates.dead){
+			if(deformScript._asset_state != asset_deform._assetStates.dead &&
+                deformScript._asset_state != asset_deform._assetStates.limbo &&
+                deformScript._asset_state != asset_deform._assetStates.respawn) {
 				deformScript._asset_state = asset_deform._assetStates.hit;
 				//Debug.Log ("Collide");
 			}
-		}
+        }
 	}
 
 	void OnCollisionExit(){
 	//	deformScript.bHit = false;
-		if(deformScript._asset_state != asset_deform._assetStates.dead){
-			deformScript._asset_state = asset_deform._assetStates.idle;
-		}
+		//if(deformScript._asset_state != asset_deform._assetStates.dead){
+		//	deformScript._asset_state = asset_deform._assetStates.idle;
+		//}
 	}
 }

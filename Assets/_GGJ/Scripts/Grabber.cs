@@ -8,6 +8,7 @@ public class Grabber : MonoBehaviour {
 
     private ScoreDogHitObject objectScore;
     private EntityRespawn objectRespawn;
+    private objectDetect objectDetec;
 
 	// Use this for initialization
 	void Start () {
@@ -67,6 +68,9 @@ public class Grabber : MonoBehaviour {
 
                 objectRespawn = heldItemJoint.gameObject.GetComponent<EntityRespawn>();
                 objectRespawn.OnEntityDestroyed += OnObjectDestroyed;
+
+                objectDetec = heldItemJoint.gameObject.GetComponent<objectDetect>();
+                objectDetec.isGrabbed = true;
             }
         }
     }
@@ -75,6 +79,7 @@ public class Grabber : MonoBehaviour {
         holding = false;
         objectScore = null;
         objectRespawn = null;
+        objectDetec.isGrabbed = false;
         Destroy(heldItemJoint);
     }
 
