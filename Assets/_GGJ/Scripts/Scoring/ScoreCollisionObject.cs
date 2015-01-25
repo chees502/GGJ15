@@ -13,6 +13,10 @@ public class ScoreCollisionObject : MonoBehaviour {
 
     void Awake() {
         assetDeform = GetComponent<asset_deform>();
+        if (assetDeform == null) {
+            assetDeform = gameObject.AddComponent<asset_deform>();
+        }
+
         assetDeform.OnObjectDamage += OnObjectDamaged;
         assetDeform.OnObjectDestroy += OnObjectDestroyed;
     }
