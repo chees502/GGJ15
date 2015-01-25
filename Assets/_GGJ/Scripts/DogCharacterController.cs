@@ -28,6 +28,7 @@ public class DogCharacterController : MonoBehaviour {
     public float cameraLookRate = 1f;
 
     private Vector3 targetLocation;
+    private float startTime;
     private Vector3 moveVector;
 
     private float distToGround = 1f;
@@ -191,7 +192,8 @@ public class DogCharacterController : MonoBehaviour {
     void Climb()
     {
         transform.position = Vector3.Lerp(transform.position, targetLocation, Time.deltaTime*5);
-        if(Vector3.Distance(transform.position,targetLocation)<0.1f){
+        if (Vector3.Distance(transform.position, targetLocation) < 0.1f || startTime < Time.time - 1)
+        {
             _Dog.DogState=_Dog._DogState.Idle;
         }
     }
@@ -201,6 +203,7 @@ public class DogCharacterController : MonoBehaviour {
         RaycastHit spot = new RaycastHit();
         if (jumpController.CanJump(out spot))
         {
+            startTime = Time.time;
             targetLocation = spot.point + new Vector3(0, 1, 0);
             _Dog.DogState = _Dog._DogState.Climbing;
         }

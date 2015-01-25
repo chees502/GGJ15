@@ -43,6 +43,7 @@ public class abberationBend : MonoBehaviour {
         if (callScript)
         {
             callScript = false;
+            //callTripping(10);
             callHot(5);
         }
         if (Tripping)
