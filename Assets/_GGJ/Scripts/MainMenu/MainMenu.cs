@@ -43,8 +43,14 @@ public class MainMenu : MonoBehaviour {
     void Main()
     {
         GUI.Label(new Rect(hw - 50, 100, hw + 50, 50), "Pugs and Thugs");
-        if (GUI.Button(new Rect(hw - 50, h - 100, 100, 50), "Play"))
+        if (GUI.Button(new Rect(hw - 25, h - 100, 50, 50), "Free\nStrut"))
         {
+            _GameManager.gameMode = _GameManager._gameMode.FreeRoam;
+            Application.LoadLevel("DebugScene");
+        }
+        if (GUI.Button(new Rect(hw - 75, h - 100, 50, 50), "Score\nAttack"))
+        {
+            _GameManager.gameMode = _GameManager._gameMode.ScoreAttack;
             Application.LoadLevel("DebugScene");
         }
         if (GUI.Button(new Rect(w - 125, h - 100, 100, 50), "Credits"))
