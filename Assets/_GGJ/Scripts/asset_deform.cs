@@ -22,7 +22,28 @@ public class asset_deform : MonoBehaviour {
 	public enum _assetStates{idle,hit,dead,limbo,respawn}
 	public _assetStates _asset_state;
 
+	public delegate void BasicEvent();
+	public event BasicEvent OnObjectDamage;
+	public event BasicEvent OnObjectDestroy;
+	public event BasicEvent OnObjectRespawn;
 
+	void TriggerObjectDamage(){
+		if (OnObjectDamage != null) {
+			OnObjectDamage();		
+		}
+	}
+
+	void TriggerObjectDestroy(){
+		if (OnObjectDestroy != null) {
+			OnObjectDestroy();		
+		}
+	}
+
+	void TriggerObjectRespawn(){
+		if (OnObjectRespawn != null) {
+			OnObjectRespawn();		
+		}
+	}
 	// Use this for initialization
 	void Start () {
 		_asset_state = _assetStates.idle;
@@ -53,6 +74,7 @@ public class asset_deform : MonoBehaviour {
 				health = 0.0f;
 				_asset_state = _assetStates.dead;
 			}
+			TriggerObjectDamage();
 		}
 		if (_asset_state == _assetStates.dead) {
 			gameObject.rigidbody.constraints = RigidbodyConstraints.None;
@@ -60,7 +82,7 @@ public class asset_deform : MonoBehaviour {
 			if(bCausesWaterSplash){
 				psWaterSplash = Instantiate(Resources.Load("psWaterSplash"), transform.position, transform.rotation) as ParticleSystem;
 			}
-
+			TriggerObjectDestroy();
 			_asset_state = _assetStates.limbo;
 		}
 		if (_asset_state == _assetStates.limbo) {
@@ -74,6 +96,7 @@ public class asset_deform : MonoBehaviour {
 				animation.Play();
 				animation[animation.clip.name].speed = 0;
 			}
+			TriggerObjectRespawn();
 			_asset_state = _assetStates.idle;
 		}
 	}
