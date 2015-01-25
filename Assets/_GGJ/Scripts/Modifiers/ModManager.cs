@@ -36,23 +36,26 @@ public class ModManager : MonoBehaviour {
             Debug.LogWarning("[ModManager]: More then one instance of the script in the scene");
         }
 
+        // Assign which class is to be used for which ModType
         _effects = new ModInfo[Enum.GetNames(typeof(ModType)).Length];
-        for (int i = 0; i < _effects.Length; i++) {
-            _effects[i] = new ModInfo();
-            _effects[i].Set(false);
-        }
+        _effects[(int)ModType.CameraEffect]     = new ModInfo();
+        _effects[(int)ModType.CameraShake]      = new ModCameraShake();
+        _effects[(int)ModType.DogShake]         = new ModInfo();
+        _effects[(int)ModType.MusicEffect]      = new ModInfo();
+        _effects[(int)ModType.SpeedIncrease]    = new ModInfo();
     }
 
     void Start() {
-        ModInfo info = GetEffect(ModType.CameraEffect);
-        info.duration = 2f;
-        
-        SetEffect(ModType.CameraEffect, true);
+
 	}
 
     void Update() {
         for(int i = 0; i < _effects.Length; i++) {
             _effects[i].Update();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E)) {
+            ModManager.Instance.SetEffect(ModType.CameraShake, true);
         }
     }
 

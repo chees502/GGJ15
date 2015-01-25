@@ -9,6 +9,7 @@ public class ModInfo {
 
     protected void TriggerEffectEnabled(ModType type, ModInfo info) {
         Debug.Log(string.Format("[ModManager][OnEffectEnabled]: (EffectType) {0} enabled", type.ToString()));
+        OnEnabled();
         if (OnEffectEnabled != null) {
             OnEffectEnabled(type, info);
         }
@@ -16,13 +17,15 @@ public class ModInfo {
 
     protected void TriggerEffectDisabled(ModType type, ModInfo info) {
         Debug.Log(string.Format("[ModManager][OnEffectDisabled]: (EffectType) {0} disabled", type.ToString()));
+        OnDisabled();
         if (OnEffectDisabled != null) {
             OnEffectDisabled(type, info);
         }
     }
 
     protected void TriggerEffectStay(ModType type, ModInfo info) {
-        Debug.Log(string.Format("[ModManager][OnEffectStay]: (EffectType) {0} stay", type.ToString()));
+        //Debug.Log(string.Format("[ModManager][OnEffectStay]: (EffectType) {0} stay", type.ToString()));
+        OnStay();
         if (OnEffectStay != null) {
             OnEffectStay(type, info);
         }
@@ -33,20 +36,34 @@ public class ModInfo {
     public float currentDuration;
     public ModType type;
 
-    public virtual void Update() {
+    public ModInfo() {
+        Set(false, 0);
+        this.type = 0;
+    }
+
+    public ModInfo(ModType type, float duration) {
+        Set(false, duration);
+        this.type = type;
+    }
+
+    public virtual void OnEnabled() { }
+    public virtual void OnDisabled() { }
+    public virtual void OnStay() { }
+
+    public void Update() {
         if (enabled) {
+            TriggerEffectStay(type, this);
             if (currentDuration > 0f) {
                 currentDuration -= Time.deltaTime;
             } else {
                 currentDuration = duration;
                 enabled = false;
+                TriggerEffectDisabled(type, this);
             }
-
-            TriggerEffectStay(type, this);
         }
     }
 
-    public virtual void Toggle() {
+    public void Toggle() {
         Set(!enabled);
         if (enabled) {
             TriggerEffectEnabled(type, this);
@@ -55,13 +72,19 @@ public class ModInfo {
         }
     }
 
-    public virtual void Set(bool enabled) {
+    public void Set(bool enabled) {
         if (this.enabled != enabled) {
             TriggerEffectEnabled(type, this);
         } else {
             TriggerEffectDisabled(type, this);
         }
         this.enabled = enabled;
+        this.currentDuration = duration;
+    }
+
+    public void Set(bool enabled, float duration) {
+        Set(enabled);
+        this.duration = duration;
         this.currentDuration = duration;
     }
 }
