@@ -105,10 +105,12 @@ MonoBehaviour:
   deformSpeed: 1
   currentAnimeTime: 0
   bCausesWaterSplash: 0
+  customParticlePrefab: {fileID: 0}
   customParticle: {fileID: 0}
   initHealth: 20
   health: 0
   damage: 1
+  force: 10
   stillAlive: 1
   _asset_state: 0
 --- !u!114 &11400004
@@ -124,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStationary: 0
   isDestructable: 0
+  isGrabbed: 0
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -136,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnable: 1
-  respawnTime: 0
+  respawnTime: 3
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
