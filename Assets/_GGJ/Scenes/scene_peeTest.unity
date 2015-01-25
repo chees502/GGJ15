@@ -619,7 +619,7 @@ MonoBehaviour:
   curveVec: {x: 0, y: 0, z: 0}
   travelSpeed: 100
   turnSpeed: 4
-  testFlight: 1
+  testFlight: 0
 --- !u!95 &134463925
 Animator:
   serializedVersion: 3
