@@ -40,12 +40,18 @@ public class objectDetect : MonoBehaviour {
 				Debug.DrawRay(contact.point, contact.normal, Color.white);
 				Debug.Log(contact.point);
 			}
-			deformScript.bHit = true;
-			Debug.Log ("Collide");
+	//		deformScript.bHit = true;
+			if(deformScript._asset_state != asset_deform._assetStates.dead){
+				deformScript._asset_state = asset_deform._assetStates.hit;
+				Debug.Log ("Collide");
+			}
 		}
 	}
 
 	void OnCollisionExit(){
-		deformScript.bHit = false;
+	//	deformScript.bHit = false;
+		if(deformScript._asset_state != asset_deform._assetStates.dead){
+			deformScript._asset_state = asset_deform._assetStates.idle;
+		}
 	}
 }

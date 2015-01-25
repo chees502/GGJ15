@@ -72,19 +72,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8d5684f9101684b972bc83789c5558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  killTime: 1
+  killTime: 20
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f8d5684f9101684b972bc83789c5558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  killTime: .5
+  killTime: 20
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -329,7 +329,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 15
     inheritVelocity: 0
-    maxNumParticles: 500
+    maxNumParticles: 1000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -347,7 +347,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 100
+      scalar: 300
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1381,7 +1381,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 20
     inheritVelocity: 0
-    maxNumParticles: 500
+    maxNumParticles: 1000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -1399,7 +1399,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 100
+      scalar: 300
       maxCurve:
         serializedVersion: 2
         m_Curve:
