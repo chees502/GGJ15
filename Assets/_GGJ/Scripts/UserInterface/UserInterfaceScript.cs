@@ -8,9 +8,9 @@ public class UserInterfaceScript : MonoBehaviour {
     private GameObject ObjectivesBox, ObjectivesText, Multiplier, StreakBar, ScoreBoard;
     private bool[] Moving = { false, false, false, false, false };
     public float timeLeft = 180.0f;
-    private bool iconMoving = false;
+    public bool iconMoving = false;
     public int curObjective;
-    public int curMultiplier = 1;
+    public int curMultiplier = 0;
     public int curStreak = 0;
     public int curScore = 0;
 
@@ -433,27 +433,28 @@ public class UserInterfaceScript : MonoBehaviour {
         ObjectivesText.guiText.alignment = TextAlignment.Center;
         //Multipliers
         Multiplier = new GameObject("Multiplier");
-        Multiplier.transform.position = new Vector3(0.925f, 0.9f, 0.0f);
+        Multiplier.transform.position = new Vector3(0.925f, 0.8f, 0.0f);
         Multiplier.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         Multiplier.AddComponent("GUITexture");
         Multiplier.guiTexture.texture = Resources.Load("GUITextures/x2") as Texture;
-        Multiplier.guiTexture.color = new Color(0.5f, 0.5f, 0.5f, 0.0f);
+        Multiplier.guiTexture.color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
         Multiplier.guiTexture.pixelInset = new Rect(-32.0f, -32.0f, 64.0f, 64.0f);
         //Streak Bar
         StreakBar = new GameObject("StreakBar");
-        StreakBar.transform.position = new Vector3(0.925f, 0.3f, 0.0f);
+        StreakBar.transform.position = new Vector3(0.925f, 0.2f, 0.0f);
         StreakBar.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         StreakBar.AddComponent("GUITexture");
         StreakBar.guiTexture.texture = Resources.Load("GUITextures/RefuseBar0") as Texture;
         StreakBar.guiTexture.pixelInset = new Rect(-37.5f, 0.0f, 75.0f, 400.0f);
         //Score Board
         ScoreBoard = new GameObject("ScoreBoard");
-        ScoreBoard.transform.position = new Vector3();
+        ScoreBoard.transform.position = new Vector3(0.925f, 0.9f, 0.0f);
         ScoreBoard.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
         ScoreBoard.AddComponent("GUIText");
         ScoreBoard.guiText.text = curScore.ToString();
         ScoreBoard.guiText.fontSize = 24;
-        ScoreBoard.guiText.anchor = TextAnchor.UpperCenter;
+        ScoreBoard.guiText.fontStyle = FontStyle.Bold;
+        ScoreBoard.guiText.anchor = TextAnchor.UpperRight;
         ScoreBoard.guiText.alignment = TextAlignment.Right;
     }
 

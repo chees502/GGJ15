@@ -172,3 +172,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeLeft: 180
   curObjective: 0
+  curMultiplier: 1
+  curStreak: 0
+  curScore: 0
