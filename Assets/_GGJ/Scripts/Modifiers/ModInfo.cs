@@ -62,6 +62,7 @@ public class ModInfo {
             } else {
                 currentDuration = duration;
                 enabled = false;
+                Debug.Log("1");
                 TriggerEffectDisabled(type, this);
             }
         }
@@ -69,6 +70,7 @@ public class ModInfo {
 
     public void Toggle() {
         SetEnabled(!enabled);
+        Debug.Log("2");
         if (enabled) {
             TriggerEffectEnabled(type, this);
         } else {
@@ -78,9 +80,11 @@ public class ModInfo {
 
     public void SetEnabled(bool enabled) {
         if (this.enabled != enabled) {
-            TriggerEffectEnabled(type, this);
-        } else {
-            TriggerEffectDisabled(type, this);
+            if (enabled) {
+                TriggerEffectEnabled(type, this);
+            } else {
+                TriggerEffectDisabled(type, this);
+            }
         }
         this.enabled = enabled;
         this.currentDuration = duration;

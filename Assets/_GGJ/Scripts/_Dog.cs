@@ -64,6 +64,6 @@ public class _Dog {
     }
     public static void CallTripping(float time)
     {
-        abberationBend.callTripping(time);
+        abberationBend.StartAllTripping(time);
     }
 }

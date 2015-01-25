@@ -5,12 +5,12 @@ public class ModVisualHot : ModInfo {
     public ModVisualHot() : base(ModType.VisualHot) {}
 
     public override void OnEnabled() {
-        abberationBend.Instance.StartHot(duration);
+        abberationBend.StartAllHot(duration);
         //ModManager.Instance.SetEffect(ModType.VisualTripping, false);
     }
 
     public override void OnDisabled() {
-        abberationBend.Instance.CancelHot();
+        abberationBend.CancelAllHot();
     }
 
     public override void OnStay() {
