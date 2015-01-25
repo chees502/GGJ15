@@ -41,6 +41,7 @@ public class ModManager : MonoBehaviour {
         _effects[(int)ModType.CameraShake]      = new ModCameraShake();
         _effects[(int)ModType.SpeedIncrease]    = new ModSpeedIncrease();
         _effects[(int)ModType.InvertControls]   = new ModInvertControls();
+        _effects[(int)ModType.SpeedDecrease]    = new ModSpeedDecrease();
     }
 
     void Start() {
