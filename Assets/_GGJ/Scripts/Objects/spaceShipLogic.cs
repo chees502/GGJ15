@@ -5,6 +5,7 @@ public class spaceShipLogic : MonoBehaviour {
     Transform parent;
     public Bounds bound;
     Vector3 target;
+    Vector3 targetMove;
 	// Use this for initialization
 	void Start () {
         parent = transform.parent;
@@ -16,9 +17,10 @@ public class spaceShipLogic : MonoBehaviour {
 
         transform.Rotate(0, Time.deltaTime*20, 0);
         parent.position += parent.forward * Time.deltaTime*5;
+        target += targetMove * Time.deltaTime;
         Vector3 dir = target - parent.position;
         Debug.DrawLine(parent.position, target, Color.blue);
-        if (Vector3.Distance(parent.position, target) < 6)
+        if (Vector3.Distance(parent.position, target) < 5)
         {
             NewTarget();
         }
@@ -29,5 +31,8 @@ public class spaceShipLogic : MonoBehaviour {
     {
         target.x = Random.Range(bound.min.x, bound.max.x);
         target.z = Random.Range(bound.min.z, bound.max.z);
+        targetMove = Random.onUnitSphere;
+        targetMove.y = 0;
+        targetMove.Normalize();
     }
 }
