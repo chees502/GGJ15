@@ -10,7 +10,7 @@ public class asset_soundFX : MonoBehaviour {
 	public int soundIndex;
 	public bool bPlaySound;
 
-	public enum _sound_states{idle,begin,playing,end}
+	enum _sound_states{idle,begin,playing,end}
 	public _sound_states _current_state;
 		// Use this for initialization
 	void Start () {
