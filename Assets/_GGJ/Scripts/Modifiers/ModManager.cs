@@ -69,7 +69,7 @@ public class ModManager : MonoBehaviour {
     public void SetEffect(ModType effect, bool enabled) {
         ModInfo info = GetEffect(effect);
         if (info != null) { 
-            info.Set(enabled);
+            info.SetEnabled(enabled);
         }
     }
 

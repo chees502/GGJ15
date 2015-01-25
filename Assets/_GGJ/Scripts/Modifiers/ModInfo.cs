@@ -64,7 +64,7 @@ public class ModInfo {
     }
 
     public void Toggle() {
-        Set(!enabled);
+        SetEnabled(!enabled);
         if (enabled) {
             TriggerEffectEnabled(type, this);
         } else {
@@ -72,7 +72,7 @@ public class ModInfo {
         }
     }
 
-    public void Set(bool enabled) {
+    public void SetEnabled(bool enabled) {
         if (this.enabled != enabled) {
             TriggerEffectEnabled(type, this);
         } else {
@@ -83,8 +83,14 @@ public class ModInfo {
     }
 
     public void Set(bool enabled, float duration) {
-        Set(enabled);
-        this.duration = duration;
-        this.currentDuration = duration;
+        SetEnabled(enabled);
+        SetDuration(duration);
+    }
+
+    public void SetDuration(float duration) {
+        if (this.currentDuration < duration) {
+            this.duration = duration;
+            this.currentDuration = duration;
+        }
     }
 }
