@@ -3,13 +3,14 @@ using System.Collections;
 
 public class spaceShipLogic : MonoBehaviour {
     Transform parent;
-    public Bounds bound;
+    Bounds bound;
     Vector3 target;
     Vector3 targetMove;
 	// Use this for initialization
 	void Start () {
         parent = transform.parent;
         NewTarget();
+        bound = _GameManager.SceneBound;
 	}
 	
 	// Update is called once per frame
