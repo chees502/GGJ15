@@ -20,6 +20,7 @@ public class spaceShipLogic : MonoBehaviour {
         target += targetMove * Time.deltaTime;
         Vector3 dir = target - parent.position;
         Debug.DrawLine(parent.position, target, Color.blue);
+      
         if (Vector3.Distance(parent.position, target) < 5)
         {
             NewTarget();
@@ -31,6 +32,7 @@ public class spaceShipLogic : MonoBehaviour {
     {
         target.x = Random.Range(bound.min.x, bound.max.x);
         target.z = Random.Range(bound.min.z, bound.max.z);
+        target.y = parent.position.y;
         targetMove = Random.onUnitSphere;
         targetMove.y = 0;
         targetMove.Normalize();
