@@ -101,8 +101,7 @@ MonoBehaviour:
   soundTracks:
   - {fileID: 8300000, guid: e39ab4ce781644a46a91c87e6c962f96, type: 3}
   - {fileID: 8300000, guid: 0e65eb4dd1318f14da3f6245ffee352e, type: 3}
-  - {fileID: 0}
-  - {fileID: 8300000, guid: 0e65eb4dd1318f14da3f6245ffee352e, type: 3}
+  - {fileID: 8300000, guid: 961a372df2f8ccc46b89a4b53d3bf3d8, type: 3}
   - {fileID: 8300000, guid: f3cb18f0aa485db4891732c78e196180, type: 3}
   testInt: 0
 --- !u!1001 &100100000

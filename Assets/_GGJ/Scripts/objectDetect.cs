@@ -35,15 +35,16 @@ public class objectDetect : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		if(collision.gameObject.tag == "Player" ||
-		   collision.gameObject.tag == "Projectiles"){
+		   collision.gameObject.tag == "Projectiles" ||
+           collision.gameObject.GetComponent<ScoreDogHitObject>() != null) {
 			foreach (ContactPoint contact in collision.contacts) {
-				Debug.DrawRay(contact.point, contact.normal, Color.white);
-				Debug.Log(contact.point);
+				//Debug.DrawRay(contact.point, contact.normal, Color.white);
+				//Debug.Log(contact.point);
 			}
 	//		deformScript.bHit = true;
 			if(deformScript._asset_state != asset_deform._assetStates.dead){
 				deformScript._asset_state = asset_deform._assetStates.hit;
-				Debug.Log ("Collide");
+				//Debug.Log ("Collide");
 			}
 		}
 	}

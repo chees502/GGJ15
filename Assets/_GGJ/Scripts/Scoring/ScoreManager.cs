@@ -25,9 +25,9 @@ public class ScoreManager : MonoBehaviour {
     }
 
     public delegate void IntValueChangeEvent(int newValue, int oldValue);
-    public event IntValueChangeEvent OnScoreChange;
-    public event IntValueChangeEvent OnStreakChange;
-    public event IntValueChangeEvent OnMultiplierChange;
+    public static event IntValueChangeEvent OnScoreChange;
+    public static event IntValueChangeEvent OnStreakChange;
+    public static event IntValueChangeEvent OnMultiplierChange;
 
     private int _score;
     private int _streak;
@@ -97,7 +97,7 @@ public class ScoreManager : MonoBehaviour {
 
     void SetScore(int value) {
         if (value != _score) {
-            Debug.Log(string.Format("[OnScoreChange]: (New Value) {0}, (Old Value) {1}", value, _score));
+            //Debug.Log(string.Format("[OnScoreChange]: (New Value) {0}, (Old Value) {1}", value, _score));
             if (OnScoreChange != null) {
                 OnScoreChange(value, _score);
             }
@@ -107,7 +107,7 @@ public class ScoreManager : MonoBehaviour {
 
     void SetStreak(int value) {
         if (value != _streak) {
-            Debug.Log(string.Format("[OnStreakChange]: (New Value) {0}, (Old Value) {1}", value, _streak));
+            //Debug.Log(string.Format("[OnStreakChange]: (New Value) {0}, (Old Value) {1}", value, _streak));
             if (OnStreakChange != null) {
                 OnStreakChange(value, _streak);
             }
@@ -117,7 +117,7 @@ public class ScoreManager : MonoBehaviour {
 
     void SetMultiplier(int value) {
         if (value != _multiplier) {
-            Debug.Log(string.Format("[OnMultiplierChange]: (New Value) {0}, (Old Value) {1}", value, _multiplier));
+            //Debug.Log(string.Format("[OnMultiplierChange]: (New Value) {0}, (Old Value) {1}", value, _multiplier));
             if (OnMultiplierChange != null) {
                 OnMultiplierChange(value, _multiplier);
             }
