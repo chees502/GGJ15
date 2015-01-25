@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UserInterfaceScript : MonoBehaviour {
+public class UserInterfaceScript2 : MonoBehaviour {
 
     public GameObject TimerObject;
     public GameObject Icon1, Icon2, Icon3, Icon4;
