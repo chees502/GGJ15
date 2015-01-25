@@ -83,6 +83,8 @@ public class DogCharacterController : MonoBehaviour {
             case _Dog._DogState.Urinating:
                 Urinate();
                 break;
+            case _Dog._DogState.ActionLock:
+                break;
         }
     }
 
@@ -98,6 +100,8 @@ public class DogCharacterController : MonoBehaviour {
                 break;
             case _Dog._DogState.Urinating:
                 OnUrinateStart();
+                break;
+            case _Dog._DogState.ActionLock:
                 break;
         }
     }

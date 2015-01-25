@@ -2,7 +2,12 @@
 using System.Collections;
 
 public class _Dog {
-    public enum _DogState { Idle, Climbing, Urinating };
+    public enum _DogState { 
+        Idle,       // Basic Movement
+        Climbing,   // Climbin Objects
+        Urinating,  // Urin CANNON!
+        ActionLock  // Locks character for external handling
+    };
 
     public delegate void DogStateEvent(_DogState newState);
 
