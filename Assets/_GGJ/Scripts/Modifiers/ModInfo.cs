@@ -41,8 +41,8 @@ public class ModInfo {
         this.type = 0;
     }
 
-    public ModInfo(ModType type, float duration) {
-        Set(false, duration);
+    public ModInfo(ModType type) {
+        Set(false, 0f);
         this.type = type;
     }
 

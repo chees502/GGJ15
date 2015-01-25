@@ -5,7 +5,7 @@ public class ModCameraShake : ModInfo {
     public GameObject cameraShakeGO;
     public Shake cameraShake;
 
-    public ModCameraShake() : base(ModType.CameraShake, 3) {
+    public ModCameraShake() : base(ModType.CameraShake) {
         ValidateGameObjects();
     }
 
