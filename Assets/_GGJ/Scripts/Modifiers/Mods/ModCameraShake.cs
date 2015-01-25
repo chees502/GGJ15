@@ -34,7 +34,6 @@ public class ModCameraShake : ModInfo {
 
     public override void OnDisabled() {
         ValidateGameObjects();
-        Debug.Log("Turned off Camera Shake");
         cameraShake.TurnShakeOff();
     }
 
