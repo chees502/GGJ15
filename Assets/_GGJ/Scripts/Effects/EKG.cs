@@ -10,7 +10,7 @@ public class EKG : MonoBehaviour {
     Transform parent;
     public int index=0;
     public static bool flatLining = false;
-    public float resetTimer;
+    public float resetTimer=float.MaxValue;
 	// Use this for initialization
 	void Start () {
         surface = new Texture2D(600, 256);
@@ -40,7 +40,7 @@ public class EKG : MonoBehaviour {
                 refrenceFG = flatLine;
                 resetTimer = Time.time + 10;
             }
-            if (resetTimer < Time.time)
+            if (resetTimer > Time.time)
             {
                 Application.LoadLevel("Menu");
             }
