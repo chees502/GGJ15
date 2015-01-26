@@ -8,11 +8,15 @@ public class AddMeshColliderToEverything : Editor {
         MeshFilter[] meshes = GameObject.FindObjectsOfType<MeshFilter>();
         foreach (MeshFilter mf in meshes) {
             if (mf.gameObject.GetComponent<Collider>() == null) {
-                mf.gameObject.AddComponent<BoxCollider>();
+                if(mf.gameObject.tag != "Water") {
+                    mf.gameObject.AddComponent<BoxCollider>();
+                } else {
+                    mf.gameObject.AddComponent<MeshCollider>();
+                }
             }
 
             if (mf.gameObject.GetComponent<Rigidbody>() == null &&
-                mf.gameObject.tag == "Water") {
+                mf.gameObject.tag != "Water") {
                     mf.gameObject.AddComponent<Rigidbody>();
             }
         }
