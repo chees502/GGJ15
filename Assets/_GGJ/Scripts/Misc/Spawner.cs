@@ -12,6 +12,11 @@ public class Spawner : MonoBehaviour {
         {
             Vector2 pos2d = Random.insideUnitCircle;
             Vector3 pos3d = new Vector3(pos2d.x * radius, 0, pos2d.y * radius);
+            GameObject newOBJ = GetOBJ();
+            if (newOBJ == null)
+            {
+                continue;
+            }
             GameObject temp = Instantiate(GetOBJ(), pos3d, Random.rotation) as GameObject;
             temp.AddComponent<BoxCollider>();
             temp.gameObject.AddComponent<Rigidbody>();

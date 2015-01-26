@@ -589,6 +589,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 363499900}
   - 95: {fileID: 363499901}
+  - 114: {fileID: 363499902}
   m_Layer: 0
   m_Name: rigged(DoNotUpdate)
   m_TagString: Untagged
@@ -626,6 +627,24 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &363499902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 363499899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa560caf950c664db8d3ed9052ae887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeLeft: 180
+  iconMoving: 0
+  curObjective: 0
+  curMultiplier: 0
+  curStreak: 0
+  curScore: 0
+  newItem: {fileID: 0}
 --- !u!1 &366981799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1298,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493ca82f30549e04186beb2667de24fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Vignet: {fileID: 0}
+  Twirl: {fileID: 0}
+  CCEffect: {fileID: 0}
+  Bloom: {fileID: 0}
+  TrippingTill: 0
+  TrippingPower: 0
+  Tripping: 0
+  Hot: 0
+  HotTill: 0
   callScript: 0
 --- !u!81 &771429981
 AudioListener:
