@@ -63,7 +63,6 @@ GameObject:
   - 23: {fileID: 2300000}
   - 95: {fileID: 9500000}
   - 114: {fileID: 11400000}
-  - 114: {fileID: 11400002}
   - 65: {fileID: 6500000}
   - 54: {fileID: 5400000}
   m_Layer: 0
@@ -116,7 +115,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1043.23547, y: 9.86941433, z: 1494.1825}
+  m_LocalPosition: {x: 0, y: 12.2101135, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -214,32 +213,21 @@ MonoBehaviour:
   howManyPoints: 3
   endPos: []
   curveVec: {x: 0, y: 0, z: 0}
-  accRate: 50
-  maxTravelSpeed: 500
+  accRate: 30
+  maxTravelSpeed: 300
   travelSpeed: 0
   turnSpeed: 2
   destStartTime: 0
   limitTime: 3
   debugTime: 0
   testFlight: 0
+  bCollide: 0
+  player: {fileID: 100036, guid: 65ae0d304b43abb4bae5e43631fc4926, type: 2}
+  playerCam: {fileID: 0}
   pSystems:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 681b596d227c66d44b290dc8c4cacd50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isStationary: 0
-  isDestructable: 0
-  isGrabbed: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -414,7 +402,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278190080
+        rgba: 4284506208
       minMaxState: 0
     startSize:
       scalar: 4.01000023
@@ -1466,7 +1454,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278190080
+        rgba: 4285098345
       minMaxState: 0
     startSize:
       scalar: 4.01000023

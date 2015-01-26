@@ -28,6 +28,9 @@ public class jetPackBehave : MonoBehaviour {
 	public float debugTime = 0.0f;//Time.deltaTime;
 	public bool testFlight;
 
+	public bool bCollide = false;
+	public GameObject player;
+	public GameObject playerCam;
 	//public List<ParticleSystem> pSystems = new List<ParticleSystem>();
 	public ParticleSystem[] pSystems = new ParticleSystem[3];
 	// Use this for initialization
@@ -47,6 +50,10 @@ public class jetPackBehave : MonoBehaviour {
 		}
 
 		StateManager ();
+		if (bCollide) {
+			player.transform.position = transform.position + transform.up * 10.0f;
+			playerCam.transform.position = transform.position + transform.up * 20.0f + transform.forward * -30.0f;
+		}
 	}
 
 	void StateManager(){
@@ -73,6 +80,7 @@ public class jetPackBehave : MonoBehaviour {
 		if (_current_state == _jetPack_states.flying) {
 			if(travelSpeed < maxTravelSpeed){
 				travelSpeed += accRate * Time.deltaTime;
+
 			}
 		//	bezierCalc(howManyPoints);
 			travel();
@@ -82,6 +90,7 @@ public class jetPackBehave : MonoBehaviour {
 			foreach (ParticleSystem ps in pSystems) {
 				ps.emissionRate = 50.0f;
 				_Dog.DogState = _Dog._DogState.Idle;
+
 			}
 			returnBack();
 		}
@@ -128,8 +137,13 @@ public class jetPackBehave : MonoBehaviour {
 		if(collision.gameObject.tag == "Player"){
 			_Dog.DogState = _Dog._DogState.ActionLock;
 			_current_state = _jetPack_states.touched;
+			bCollide = true;
+			playerCam = collision.gameObject;
+		//	player = Instantiate(player, collision.transform.position, collision.transform.rotation) as GameObject;
 		}
 	}
+
+
 //	void bezierCalc( int points){
 //
 //		BezierTime = BezierTime + (Time.deltaTime * travelSpeed);
