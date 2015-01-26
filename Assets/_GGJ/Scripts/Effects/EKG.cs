@@ -40,7 +40,7 @@ public class EKG : MonoBehaviour {
                 refrenceFG = flatLine;
                 resetTimer = Time.time + 10;
             }
-            if (resetTimer < Time.time)
+            if (resetTimer > Time.time)
             {
                 Application.LoadLevel("Menu");
             }
