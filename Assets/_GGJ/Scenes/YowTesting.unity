@@ -176,3 +176,4 @@ MonoBehaviour:
   curMultiplier: 0
   curStreak: 0
   curScore: 0
+  newItem: {fileID: 0}

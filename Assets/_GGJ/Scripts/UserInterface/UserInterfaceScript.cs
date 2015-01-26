@@ -14,6 +14,8 @@ public class UserInterfaceScript : MonoBehaviour {
     public int curStreak = 0;
     public int curScore = 0;
 
+    public Texture newItem;
+
     private Vector3 pos1 = new Vector3(0.025f, 0.915f, -1.0f);
     private Vector3 pos2 = new Vector3(0.125f, 0.9475f, -2.0f);
     private Vector3 pos3 = new Vector3(0.175f, 0.9475f, -3.0f);
@@ -215,7 +217,20 @@ public class UserInterfaceScript : MonoBehaviour {
     }
 
     //Icon  Scripts
-    int GetIconPosition(GameObject Icon){
+    void UpdateIcons(GameObject[] Icons, Texture IconTexture) {
+        if(iconMoving) SetIcon4(Icons, IconTexture);
+    }
+
+    void SetIcon4(GameObject[] Icons, Texture IconTexture) {
+        for (int i = 0; i < Icons.Length; i++) {
+            if (GetIconPosition(Icons[i]) == 4) {
+                SetIconTexture(Icons[i], IconTexture);
+            }
+        }
+    }
+
+    int GetIconPosition(GameObject Icon)
+    {
         return Icon.GetComponent<IconScript>().IconPosition;
     }
 
@@ -313,8 +328,12 @@ public class UserInterfaceScript : MonoBehaviour {
     }
 
     //Objectives!
-    void UpdateObjective(int objective) {
-        
+    void SetObjective(GameObject ObjectiveGO, int Objective) {
+        ObjectiveGO.guiText.text = ObjectiveGO.GetComponent<ObjectiveScript>().ObjectiveDesc[Objective];
+    }
+
+    void UpdateObjective(GameObject ObjectiveGO, int objective) {
+        SetObjective(ObjectiveGO, objective);
     }
 
     //Multiplier
@@ -461,8 +480,9 @@ public class UserInterfaceScript : MonoBehaviour {
     //On Frame
     void Update() {
         Countdown();
+        UpdateIcons(new GameObject[] {Icon1, Icon2, Icon3, Icon4, Icon5 }, newItem);
         AnimateIcons();
-        UpdateObjective(curObjective);
+        UpdateObjective(ObjectivesText, curObjective);
         UpdateScore(ScoreBoard);
         UpdateStreak(StreakBar);
         UpdateMultiplier(Multiplier);
