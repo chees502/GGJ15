@@ -8,7 +8,7 @@ public class AddMeshColliderToEverything : Editor {
         MeshFilter[] meshes = GameObject.FindObjectsOfType<MeshFilter>();
         foreach (MeshFilter mf in meshes) {
             if (mf.gameObject.GetComponent<Collider>() == null) {
-                if(mf.gameObject.tag != "Water") {
+                if(mf.gameObject.layer != LayerMask.NameToLayer("Water")) {
                     mf.gameObject.AddComponent<BoxCollider>();
                 } else {
                     mf.gameObject.AddComponent<MeshCollider>();
@@ -16,7 +16,7 @@ public class AddMeshColliderToEverything : Editor {
             }
 
             if (mf.gameObject.GetComponent<Rigidbody>() == null &&
-                mf.gameObject.tag != "Water") {
+                mf.gameObject.layer != LayerMask.NameToLayer("Water")) {
                     mf.gameObject.AddComponent<Rigidbody>();
             }
         }
