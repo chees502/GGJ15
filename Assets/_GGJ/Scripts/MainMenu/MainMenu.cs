@@ -82,11 +82,11 @@ public class MainMenu : MonoBehaviour {
             {
                 case 1:
                     _GameManager.gameMode = _GameManager._gameMode.ScoreAttack;
-                    Application.LoadLevel("DebugScene");
+                    Application.LoadLevel("TrailerParkStart_Colliders");
                     break;
                 case 2:
                     _GameManager.gameMode = _GameManager._gameMode.ScoreAttack;
-                    Application.LoadLevel("DebugScene");
+                    Application.LoadLevel("TrailerParkStart_Colliders");
                     break;
                 case 3:
                     menuState = _menuState.Credits;
