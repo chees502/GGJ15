@@ -65,6 +65,7 @@ public class UserInterfaceScript : MonoBehaviour {
     void Countdown() {
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0) {
+            _Dog.DogState = _Dog._DogState.ActionLock;
             EKG.FlatLine();
         }else {
             FormatTime(timeLeft);            
