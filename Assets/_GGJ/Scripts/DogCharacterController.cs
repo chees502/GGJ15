@@ -122,6 +122,7 @@ public class DogCharacterController : MonoBehaviour {
             0f,
             Input.GetAxis(InputAxisVertical) * (invertControls ? -1f : 1f) 
             );
+        moveVector.Normalize();
 
         if (Input.GetButton(InputButtonFire))
         {
@@ -143,7 +144,7 @@ public class DogCharacterController : MonoBehaviour {
     {
         // apply acceleration rates
         moveVector.x *= horizontalAccel * speedMultiplier;
-        moveVector.y *= verticalAccel * speedMultiplier;
+        moveVector.z *= verticalAccel * speedMultiplier;
 
         // Apply the jumpInputModifier to the move Vector is not grouned
         moveVector *= _isGrounded ? idleInputModifier : jumpInputModifier;
@@ -157,6 +158,8 @@ public class DogCharacterController : MonoBehaviour {
         if ((frLimitied + new Vector2(moveVector.x, moveVector.z)).magnitude < idleMaxForwardRightVel * speedMultiplier) {
             rigidbody.velocity += moveVector;
         }
+
+        ApplyGravity();
 
         // Rotate the based off the mouse x input
         transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) * (invertControls ? -1f : 1f) * cameraLookRate * Time.deltaTime);
@@ -176,7 +179,7 @@ public class DogCharacterController : MonoBehaviour {
     {
         // apply acceleration rates
         moveVector.x *= horizontalAccel * speedMultiplier;
-        moveVector.y *= verticalAccel * speedMultiplier;
+        moveVector.z *= verticalAccel * speedMultiplier;
 
         // Apply the jumpInputModifier to the move Vector is not grouned
         moveVector *= _isGrounded ? urinInputModifier : jumpInputModifier;
@@ -191,9 +194,20 @@ public class DogCharacterController : MonoBehaviour {
         {
             rigidbody.velocity += moveVector;
         }
+        ApplyGravity();
 
         // Rotate the based off the mouse x input
         transform.Rotate(Vector3.up, Input.GetAxis(InputAxisRotateY) * (invertControls ? -1f : 1f) * urinRotationModifier * cameraLookRate * Time.deltaTime);
+    }
+
+
+    float terminalVelocity = -100f;
+    float gravityMultiplier = 1f;
+    void ApplyGravity() {
+        rigidbody.velocity += Physics.gravity * gravityMultiplier;
+        if (rigidbody.velocity.y < terminalVelocity) {
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, terminalVelocity, rigidbody.velocity.z);
+        }
     }
 
     void OnClimbStart()

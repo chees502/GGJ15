@@ -179,7 +179,6 @@ GameObject:
   - 114: {fileID: 11400020}
   - 114: {fileID: 11400018}
   - 114: {fileID: 11400012}
-  - 114: {fileID: 11400048}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -349,8 +348,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.50109959, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1535.75317, y: 71.8855591, z: 1414.54626}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 400008}
   - {fileID: 400016}
@@ -428,8 +427,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100026}
-  m_LocalRotation: {x: 0, y: .087155886, z: 0, w: -.99619472}
-  m_LocalPosition: {x: 1.86233974, y: .894509077, z: 0}
+  m_LocalRotation: {x: .102505162, y: .0556606278, z: .0401279777, w: -.992363036}
+  m_LocalPosition: {x: .616613805, y: -.3048729, z: .287451178}
   m_LocalScale: {x: .164108485, y: .164108545, z: .164108545}
   m_Children: []
   m_Father: {fileID: 400014}
@@ -624,7 +623,7 @@ Rigidbody:
   m_GameObject: {fileID: 100014}
   serializedVersion: 2
   m_Mass: 5
-  m_Drag: 2
+  m_Drag: .0500000007
   m_AngularDrag: .0500000007
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -724,15 +723,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2e50d60356a684b8a41a0ab54b11d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalAccel: 2
-  horizontalAccel: 2
-  idleMaxForwardRightVel: 4
+  verticalAccel: 20
+  horizontalAccel: 20
+  idleMaxForwardRightVel: 100
   idleInputModifier: 1
   jumpController: {fileID: 0}
-  jumpForce: 6
+  jumpForce: 140
   jumpForceMode: 2
-  jumpInputModifier: .100000001
-  urinInputModifier: .300000012
+  jumpInputModifier: .300000012
+  urinInputModifier: .100000001
   urinRotationModifier: .5
   urinMaxForwardRightVel: 2
   cameraLookRate: 90
@@ -1519,17 +1518,6 @@ MonoBehaviour:
   holding: 0
   heldItem: {fileID: 0}
   heldItemJoint: {fileID: 0}
---- !u!114 &11400048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0822620e0fcfd7546af2e8a1ed1d9845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11400050
 MonoBehaviour:
   m_ObjectHideFlags: 1

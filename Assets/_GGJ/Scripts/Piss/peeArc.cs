@@ -73,7 +73,7 @@ public class peeArc : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if (col.transform.tag != "Player" || col.transform.tag != "Projectiles"){
+		if (col.transform.tag != "Player" && col.transform.tag != "Projectiles"){
 	//	stopBezier = true;
 			Vector3 dirHit = new Vector3 ();
 			dirHit = col.transform.position - this.transform.position;

@@ -5,7 +5,7 @@ public class peeControl : MonoBehaviour {
 
 	static public bool isPissing;
 	static public float pissDistance = 0.0f;
-	static public float rateOfFire = 0.2f;
+	static public float rateOfFire = 0.05f;
 	public float fireTime = 0.0f;
 	static public Vector3 muzzlePos = new Vector3 ();
 //	public float testFloat = 0.0f;
