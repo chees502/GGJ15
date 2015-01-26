@@ -380,7 +380,7 @@ public class UserInterfaceScript : MonoBehaviour {
         ScoreManager.OnMultiplierChange += AddMultiplier;
         //Create Timer Object
         TimerObject = new GameObject("Timer");
-        TimerObject.transform.position = new Vector3(0.5f, 0.98f, 0.5f);
+        TimerObject.transform.position = new Vector3(0.5f, 0.50f, 0.5f);
         TimerObject.AddComponent("GUIText");
         TimerObject.guiText.anchor = TextAnchor.UpperCenter;
         TimerObject.guiText.alignment = TextAlignment.Center;
