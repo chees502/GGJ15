@@ -50,7 +50,7 @@ public class Grabber : MonoBehaviour {
     {       
         RaycastHit hit = new RaycastHit();
         //cast for surface to jump to
-        if (Physics.Raycast(new Ray(transform.position,transform.forward), out hit, 2))
+        if (Physics.Raycast(new Ray(transform.position,transform.forward), out hit, 2 * 10))
         {
             if (hit.transform.gameObject.GetComponent<Rigidbody>())
             {
