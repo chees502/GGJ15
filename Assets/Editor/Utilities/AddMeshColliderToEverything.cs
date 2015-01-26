@@ -1,0 +1,20 @@
+﻿using UnityEngine;
+using UnityEditor;
+using System.Collections;
+
+public class AddMeshColliderToEverything : Editor {
+    [MenuItem("Assets/AddAllTheColliders")]
+    static void DoShit() {
+        MeshFilter[] meshes = GameObject.FindObjectsOfType<MeshFilter>();
+        foreach (MeshFilter mf in meshes) {
+            if (mf.gameObject.GetComponent<Collider>() == null) {
+                mf.gameObject.AddComponent<BoxCollider>();
+            }
+
+            if (mf.gameObject.GetComponent<Rigidbody>() == null &&
+                mf.gameObject.tag == "Water") {
+                    mf.gameObject.AddComponent<Rigidbody>();
+            }
+        }
+    }
+}
