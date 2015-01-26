@@ -11,6 +11,9 @@ public class MainMenu : MonoBehaviour {
     public Renderer menuItemTexture;
     public Texture2D[] menus;
     public Camera creditCam;
+    AudioSource myAS;
+    public AudioClip audioMain;
+    public AudioClip audioCredits;
     private int _currentState = 0;
     public int currentState
     {
@@ -35,6 +38,7 @@ public class MainMenu : MonoBehaviour {
         h = Screen.height;
         hw = Mathf.FloorToInt(w * 0.5f);
         hh = Mathf.FloorToInt(h * 0.5f);
+        myAS = transform.GetComponent<AudioSource>();
 	}
     void updateTexture()
     {
@@ -88,6 +92,8 @@ public class MainMenu : MonoBehaviour {
                     menuState = _menuState.Credits;
                     currentState = 5;
                     creditCam.enabled = true;
+                    myAS.clip = audioCredits;
+                    myAS.Play();
                     break;
                 case 4:
                     Application.CancelQuit();
@@ -140,6 +146,8 @@ public class MainMenu : MonoBehaviour {
             menuState = _menuState.MainMenu;
             currentState = 0;
             creditCam.enabled = false;
+            myAS.clip = audioMain;
+            myAS.Play();
         }
     }
     void Options()

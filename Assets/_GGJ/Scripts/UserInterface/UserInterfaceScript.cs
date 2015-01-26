@@ -63,7 +63,7 @@ public class UserInterfaceScript : MonoBehaviour {
     void Countdown() {
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0) {
-            //Game over
+            EKG.FlatLine();
         }else {
             FormatTime(timeLeft);            
         }

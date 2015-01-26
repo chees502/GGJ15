@@ -10,7 +10,7 @@ public class EKG : MonoBehaviour {
     Transform parent;
     public int index=0;
     public static bool flatLining = false;
-    public bool hitMe = false;
+    public float resetTimer;
 	// Use this for initialization
 	void Start () {
         surface = new Texture2D(600, 256);
@@ -31,10 +31,6 @@ public class EKG : MonoBehaviour {
         sweepMat.material.SetTextureOffset("_MainTex", new Vector2(index*-.0016666f,0));
         surface.Apply();
         index++;
-        if (hitMe)
-        {
-            flatLining = true;
-        }
         if (flatLining)
         {
             parent.position = Vector3.Lerp(parent.position, Vector3.zero, Time.deltaTime*0.75f);
@@ -42,6 +38,11 @@ public class EKG : MonoBehaviour {
             if (Vector3.Distance(parent.position, Vector3.zero) < 0.1f)
             {
                 refrenceFG = flatLine;
+                resetTimer = Time.time + 10;
+            }
+            if (resetTimer < Time.time)
+            {
+                Application.LoadLevel("Menu");
             }
         }
 	}
