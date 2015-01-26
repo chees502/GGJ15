@@ -63,6 +63,9 @@ GameObject:
   - 23: {fileID: 2300000}
   - 95: {fileID: 9500000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
+  - 65: {fileID: 6500000}
+  - 54: {fileID: 5400000}
   m_Layer: 0
   m_Name: env_propainJetPack 1
   m_TagString: Untagged
@@ -77,7 +80,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -10.8539495, y: 14.1517944, z: -8.95363045}
+  m_LocalPosition: {x: -10.8539429, y: 14.8739243, z: -11.7111816}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -89,7 +92,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 10.8539505, y: 14.1517944, z: -8.95363045}
+  m_LocalPosition: {x: 10.8540039, y: 14.8739243, z: -11.7111816}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -101,7 +104,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: -.404153824, y: 9.82564545, z: -9.59815121}
+  m_LocalPosition: {x: -.404174805, y: 9.51677895, z: -8.98681641}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -113,7 +116,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1043.23547, y: 9.86941433, z: 1494.1825}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -148,6 +151,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_Mesh: {fileID: 4300000, guid: fa1c4498f71c56648940976c86fb427c, type: 3}
+--- !u!54 &5400000
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6500000
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 23.5203094, y: 27.050703, z: 19.6756325}
+  m_Center: {x: .337947845, y: 4.57223225, z: 0}
 --- !u!95 &9500000
 Animator:
   serializedVersion: 3
@@ -174,20 +204,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a823d45b0750fc644ad69ca9a8993955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bound:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
   _current_state: 0
   startPos: {x: 0, y: 0, z: 0}
   controlPos: []
   autoGenPoints: 1
-  howManyPoints: 20
+  howManyPoints: 3
   endPos: []
   curveVec: {x: 0, y: 0, z: 0}
-  travelSpeed: 20
+  accRate: 50
+  maxTravelSpeed: 500
+  travelSpeed: 0
   turnSpeed: 2
+  destStartTime: 0
+  limitTime: 3
+  debugTime: 0
   testFlight: 0
   pSystems:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 681b596d227c66d44b290dc8c4cacd50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isStationary: 0
+  isDestructable: 0
+  isGrabbed: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -430,7 +482,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    gravityModifier: 0
+    gravityModifier: -2
     inheritVelocity: 0
     maxNumParticles: 1000
   ShapeModule:
@@ -1482,7 +1534,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    gravityModifier: 0
+    gravityModifier: -2
     inheritVelocity: 0
     maxNumParticles: 1000
   ShapeModule:
@@ -2309,7 +2361,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: .810000002
+      scalar: .5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2342,7 +2394,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: 21.0900002
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2535,7 +2587,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     gravityModifier: 0
-    inheritVelocity: 0
+    inheritVelocity: .5
     maxNumParticles: 1000
   ShapeModule:
     serializedVersion: 2
